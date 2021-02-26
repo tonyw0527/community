@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-styles";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { wrapper } from "../store";
 
 function App({ Component, pageProps }: AppProps) {
   const [theme, toggleTheme, componentMounted] = useDarkMode();
@@ -27,4 +28,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default wrapper.withRedux(App);
