@@ -1,13 +1,19 @@
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
-import {createWrapper} from "next-redux-wrapper";
-import {reducer} from './lib/slices'
+import { configureStore, EnhancedStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { createWrapper } from "next-redux-wrapper";
+import { useDispatch } from 'react-redux'
+import { rootReducer } from './lib/slices'
 
-const makeStore = (context: any) => configureStore({
-    reducer,
-    devTools: process.env.NODE_ENV !== 'production',
-    middleware: getDefaultMiddleware()
+const initStore = (context: any) => configureStore({
+  reducer: rootReducer,
+  devTools: process.env.NODE_ENV !== 'production',
+  middleware: getDefaultMiddleware()
 });
 
-export const wrapper = createWrapper(makeStore, {
-    debug: process.env.NODE_ENV !== 'production',
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppDispatch = ReturnType<typeof initStore>['dispatch'];
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export const wrapper = createWrapper(initStore, {
+  debug: process.env.NODE_ENV !== 'production',
 });
