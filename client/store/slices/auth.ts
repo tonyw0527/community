@@ -26,9 +26,17 @@ const initialState: Auth = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({email, password}: AuthAPI.LoginForm, thunkAPI ) => {
-    const response = await AuthAPI.login({email, password});
-    return response.data
+  async ({email, password}: AuthAPI.LoginForm, thunkAPI) => {
+    const response = await AuthAPI.localLogin({email, password});
+    return response.data;
+  }
+)
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async ({email, password, nickname}: AuthAPI.RegisterForm, thunkAPI) => {
+    const response = await AuthAPI.localRegister({email, password, nickname});
+    return response.data;
   }
 )
 
@@ -56,7 +64,15 @@ export const authSlice = createSlice({
       state.sending = false;
       state.email = '';
       state.authResult = null;
-    }
+    },
+    [register.pending.type]: (state, action) => {
+    },
+    [register.fulfilled.type]: (state, action: PayloadAction<AuthResult>) => {
+      state.authResult = action.payload;
+    },
+    [register.rejected.type]: (state, action) => {
+      state.authResult = null;
+    },
   }
 })
 
