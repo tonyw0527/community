@@ -2,6 +2,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import { combineReducers } from '@reduxjs/toolkit';
 
 // slices
+import { authSlice } from './auth';
 import { counterSlice } from './counter';
 
 // root reducer
@@ -15,6 +16,7 @@ export const rootReducer = (state: any = {}, action: any) => {
     }
     return combineReducers({
         [counterSlice.name]: counterSlice.reducer,
+        [authSlice.name]: authSlice.reducer,
      // [anotherSlice.name]: anotherSlice.reducer
     })(state, action);
 }
