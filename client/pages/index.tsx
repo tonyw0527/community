@@ -1,11 +1,10 @@
-import { connect, useSelector } from "react-redux";
 import { wrapper } from "../store";
-import { RootState, useAppDispatch } from "../store";
+import { useRootState, useAppDispatch } from "../store";
 import { up, down, incrementBy } from "../lib/slices/counter";
 
 function Home() {
   const dispatch = useAppDispatch();
-  const counter = useSelector((state: RootState) => state.counter);
+  const counter = useRootState((state) => state.counter);
 
   return (
     <div>
