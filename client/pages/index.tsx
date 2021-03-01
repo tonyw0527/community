@@ -1,6 +1,6 @@
-import { wrapper } from "../store";
-import { useRootState, useAppDispatch } from "../store";
-import { up, down, incrementBy } from "../lib/slices/counter";
+import { wrapper } from "../store/store";
+import { useRootState, useAppDispatch } from "../store/store";
+import { up, down, incrementBy } from "../store/slices/counter";
 
 function Home() {
   const dispatch = useAppDispatch();

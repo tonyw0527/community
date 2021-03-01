@@ -1,7 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux'
 import { createWrapper } from "next-redux-wrapper";
-import { rootReducer } from './lib/slices'
+import { rootReducer } from './slices'
 
 const initStore = (context: any) => configureStore({
   reducer: rootReducer,

@@ -4,7 +4,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 // slices
 import { counterSlice } from './counter';
 
-
+// root reducer
 export const rootReducer = (state: any = {}, action: any) => {
     if (action.type === HYDRATE) {
         console.log("HYDRATE", action);
