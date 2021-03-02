@@ -6,8 +6,9 @@ interface AuthResult {
     id: string,
     email: string,
     nickname: string,
-  },
-  token: string,
+    provider: string,
+    createdAt: string
+  }
 }
 
 interface Auth {
