@@ -1,4 +1,4 @@
-import { useDarkMode } from "../hooks/useDarkMode";
+import { useDarkMode } from "../lib/useDarkMode";
 import { lightTheme, darkTheme } from "../styles/theme";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../styles/global-styles";
@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Next App</title>
+        <title>Community</title>
       </Head>
 
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
