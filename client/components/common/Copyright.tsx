@@ -1,6 +1,5 @@
 import DefaultAnchor from './DefaultAnchor';
 import styled from 'styled-components';
-import { Default_Anchor } from '../../styles/mixins';
 
 function Copyright() {
   return (

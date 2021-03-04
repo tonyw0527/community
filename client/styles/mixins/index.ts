@@ -36,7 +36,7 @@ export const default_input = css`
   }
 `;
 
-export const Default_Anchor = css`
+export const default_Anchor = css`
   font-size: 0.8rem;
   color: ${({ theme }) => theme.color.secondary_variant};
   text-decoration: none;

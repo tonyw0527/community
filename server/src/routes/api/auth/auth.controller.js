@@ -14,18 +14,17 @@ exports.login = (req, res) => {
     passport.authenticate('local', {session: false}
     ,(err, user) => {
         if(err || !user) {
-            console.log('here');
             console.log(err);
             console.log(user);
             return res.status(400).json({
-                message: 'Seomthing is not right',
+                message: 'Something is not right',
                 user: user
             });
         }
         
         const { id, email, nickname, provider, createdAt  } = user;
         
-        if(req.body.isKeepLogin) {
+        if(req.body.isAutoLogin) {
             const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '30 days'});
             res.cookie(TOKEN_COOKIE_NAME, token, cookieOptions);
         } else {

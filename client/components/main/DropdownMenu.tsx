@@ -49,7 +49,7 @@ const MenuContainer = styled.div`
 `;
 
 const MenuTriggerBtn = styled.button`
-  background: #ffffff;
+  background: ${({ theme }) => theme.color.on_primary};
   border-radius: 90px;
   display: flex;
   justify-content: space-between;

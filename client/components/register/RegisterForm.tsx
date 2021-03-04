@@ -1,11 +1,11 @@
-import { useAppDispatch } from '../../store/store';
-import * as AuthActions from '../../store/slices/auth';
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import * as Mixins from '../../styles/mixins';
 import Link from 'next/link';
 import { DefaultButton, DefaultAnchor, Copyright } from '../common';
+import { useAppDispatch } from '../../store/store';
+import * as AuthActions from '../../store/slices/auth';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('올바르지 않은 이메일 형식입니다.').required('이메일은 필수 항목입니다.'),
@@ -28,7 +28,7 @@ function RegisterForm() {
 
   return (
     <Container>
-      <Title>회원가입</Title>
+      <H1>회원가입</H1>
       <Formik
         initialValues={{
           email: '',
@@ -50,7 +50,7 @@ function RegisterForm() {
           <$Form>
             <FieldBox>
               <Label htmlFor="email">이메일 *</Label>
-              <$Field id="emil" name="email" placeholder="이메일" type="email" autoComplete="off" />
+              <$Field id="email" name="email" placeholder="이메일" type="email" autoComplete="off" />
               <ErrorBox>{errors.email && touched.email ? <div>{errors.email}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
@@ -91,7 +91,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Title = styled.h1``;
+const H1 = styled.h1``;
 
 const $Form = styled(Form)`
   width: 20rem;

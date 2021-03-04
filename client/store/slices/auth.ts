@@ -12,23 +12,19 @@ interface AuthResult {
 }
 
 interface Auth {
-  email: string,
-  password: string,
   sending: boolean,
   authResult: AuthResult | null,
 }
 
 const initialState: Auth = {
-  email: '',
-  password: '',
   sending: false,
   authResult: null
 }
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({email, password}: AuthAPI.LoginForm, thunkAPI) => {
-    const response = await AuthAPI.localLogin({email, password});
+  async ({email, password, isAutoLogin}: AuthAPI.LoginForm, thunkAPI) => {
+    const response = await AuthAPI.login({ email, password, isAutoLogin });
     return response.data;
   }
 )
@@ -36,7 +32,7 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
   'auth/register',
   async ({email, password, nickname}: AuthAPI.RegisterForm, thunkAPI) => {
-    const response = await AuthAPI.localRegister({email, password, nickname});
+    const response = await AuthAPI.register({email, password, nickname});
     return response.data;
   }
 )
@@ -45,17 +41,16 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setEmailInput: (state, action: PayloadAction<string>) => {
-      state.email = action.payload;
-    },
-    setPasswordInput: (state, action: PayloadAction<string>) => {
-      state.password = action.payload;
-    }
+    // setEmailInput: (state, action: PayloadAction<string>) => {
+    //   state.email = action.payload;
+    // },
+    // setPasswordInput: (state, action: PayloadAction<string>) => {
+    //   state.password = action.payload;
+    // }
   },
   extraReducers: {
     [login.pending.type]: (state, action) => {
       state.sending = true;
-      state.password = '';
     },
     [login.fulfilled.type]: (state, action: PayloadAction<AuthResult>) => {
       state.sending = true;
@@ -63,7 +58,6 @@ export const authSlice = createSlice({
     },
     [login.rejected.type]: (state, action) => {
       state.sending = false;
-      state.email = '';
       state.authResult = null;
     },
     [register.pending.type]: (state, action) => {
@@ -77,4 +71,4 @@ export const authSlice = createSlice({
   }
 })
 
-export const { setEmailInput, setPasswordInput } = authSlice.actions;
+// export const { setEmailInput, setPasswordInput } = authSlice.actions;

@@ -7,7 +7,7 @@ const lightTheme: DefaultTheme = {
     mode_img: './sun.svg',
 
     color: {
-      primary: '#007965',
+      primary: '#00af91',
       primary_variant: '#184d47',
       secondary: '#0366D6',
       secondary_variant: '#A5D6FF',
@@ -46,7 +46,7 @@ const darkTheme: DefaultTheme = {
     mode_img: './moon.svg',
 
     color: {
-      primary: '#00af91',
+      primary: '#007965',
       primary_variant: '#184d47',
       secondary: '#58A6FF',
       secondary_variant: '#79C0FF',

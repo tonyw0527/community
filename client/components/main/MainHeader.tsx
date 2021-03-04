@@ -1,11 +1,13 @@
-import DropdownMenu from "./DropdownMenu";
-import styled from "styled-components";
+import DropdownMenu from './DropdownMenu';
+import styled from 'styled-components';
 
 function MainHeader() {
   return (
     <header>
       <Container>
-        <DropdownMenu />
+        <RightSideBox>
+          <DropdownMenu />
+        </RightSideBox>
       </Container>
     </header>
   );
@@ -14,9 +16,13 @@ function MainHeader() {
 export default MainHeader;
 
 const Container = styled.div`
-  display: flex;
-  justify-content: flex-end;
   width: 100vw;
   height: 3rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: ${({ theme }) => theme.color.primary};
+`;
+
+const RightSideBox = styled.div`
+  position: absolute;
+  top: 0.7rem;
+  right: 1rem;
 `;

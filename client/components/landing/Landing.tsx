@@ -1,47 +1,89 @@
-import Link from "next/link";
-import styled, { css } from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
+import * as Mixins from '../../styles/mixins';
+import { DefaultButton, Copyright } from '../common';
 
 function Landing() {
   return (
     <Container>
-      <p>자유로운 커뮤니티에 참여하세요.</p>
-      <Link href="/register">
-        <A>가입하기</A>
-      </Link>
-      <Link href="/login">
-        <A>로그인</A>
-      </Link>
+      <ImageBox></ImageBox>
+      <SideBox>
+        <Title>Community</Title>
+        <P>자유로운 커뮤니티에 참여하세요.</P>
+        <LinkBox>
+          <Link href="/login">
+            <a>
+              <LoginBtn>로그인</LoginBtn>
+            </a>
+          </Link>
+          <Link href="/register">
+            <a>
+              <Button>가입하기</Button>
+            </a>
+          </Link>
+        </LinkBox>
+        <Copyright />
+      </SideBox>
     </Container>
   );
 }
 
 export default Landing;
 
-const flexColumnCenter = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Container = styled.div`
-  ${flexColumnCenter}
+  display: flex;
   width: 100vw;
   height: 100vh;
 `;
 
-const A = styled.a`
-  display: block;
-  width: 60%;
-  margin: 0.7rem;
-  padding: 0.6rem 0.6rem;
+const ImageBox = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url('https://source.unsplash.com/random?people');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const SideBox = styled.div`
+  ${Mixins.flex_column_center}
+  min-width: 30rem;
+`;
+
+const Title = styled.h1`
+  @media screen and (min-width: 769px) {
+    font-size: 3.5rem;
+  }
+`;
+
+const P = styled.p`
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  @media screen and (min-width: 769px) {
+    font-size: 1.6rem;
+  }
+`;
+
+const LinkBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+`;
+
+const Button = styled(DefaultButton)`
+  width: 10rem;
+  margin: 1rem 0.5rem;
+  @media screen and (min-width: 769px) {
+    font-size: 1.3rem;
+  }
+`;
+
+const LoginBtn = styled(Button)`
+  border: 1px solid ${({ theme }) => theme.color.secondary_variant};
   border-radius: 0.5rem;
-  border: 0;
-  text-align: center;
-  color: ${({ theme }) => theme.color.text};
-  background: #8739f9;
+  background: ${({ theme }) => theme.color.background};
+  color: ${({ theme }) => theme.color.secondary_variant};
   &:hover {
-    cursor: pointer;
-    background: #9b6dff;
+    background: #262626;
   }
 `;
