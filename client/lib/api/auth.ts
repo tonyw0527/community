@@ -12,5 +12,6 @@ export interface RegisterForm {
 }
 
 export const localLogin = ({ email, password }: LoginForm): Promise<any> => axios.post('/auth/login', { email, password });
+export const authCheck = (): Promise<any> => axios.get('/auth/check');
 export const logout = (): Promise<any> => axios.get('/auth/logout');
 export const localRegister = ({ email, password, nickname }: RegisterForm): Promise<any> => axios.post('/auth/register', { email, password, nickname });

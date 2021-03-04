@@ -1,12 +1,17 @@
-import Link from "next/link";
-import { useRootState, useAppDispatch } from "../../store/store";
-import * as AuthActions from "../../store/slices/auth";
-import styled, { css } from "styled-components";
-import { ChangeEvent } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useRootState, useAppDispatch } from '../../store/store';
+import * as AuthActions from '../../store/slices/auth';
+import styled, { css } from 'styled-components';
+import { ChangeEvent } from 'react';
 
 function AuthForm() {
-  const { email, sending, password } = useRootState((state) => state.auth);
+  const { email, sending, password, authResult } = useRootState(
+    (state) => state.auth
+  );
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(AuthActions.setEmailInput(e.target.value));
@@ -20,6 +25,14 @@ function AuthForm() {
     e.preventDefault();
     dispatch(AuthActions.login({ email, password }));
   };
+
+  useEffect(() => {
+    if (authResult !== null) {
+      router.push('/main');
+    }
+
+    return () => {};
+  }, [authResult]);
 
   return (
     <Container>

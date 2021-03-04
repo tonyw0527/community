@@ -46,13 +46,6 @@ exports.login = (req, res) => {
     })(req, res); // 미들웨어 내의 미들웨는 (req, res, next)를 붙임.
 };
 
-exports.logout = (req, res) => {
-    // destroy token
-    res.clearCookie(TOKEN_COOKIE_NAME);
-    res.json('logout');
-    console.log('logout');
-}
-
 exports.register = async (req, res) => {
     const { email, password, nickname } = req.body;
     console.log(req.body);
@@ -74,4 +67,11 @@ exports.register = async (req, res) => {
       console.error(error);
       next(error);
     }
+};
+
+exports.logout = (req, res) => {
+  // destroy token
+  res.clearCookie(TOKEN_COOKIE_NAME);
+  res.json('logout');
+  console.log('logout');
 };

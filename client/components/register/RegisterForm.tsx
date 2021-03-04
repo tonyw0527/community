@@ -1,171 +1,127 @@
-import Link from "next/link";
-import { useAppDispatch } from "../../store/store";
-import * as AuthActions from "../../store/slices/auth";
-import styled, { css } from "styled-components";
-import { useState } from "react";
+import { useAppDispatch } from '../../store/store';
+import * as AuthActions from '../../store/slices/auth';
+import { Formik, Field, Form, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import styled from 'styled-components';
+import * as Mixins from '../../styles/mixins';
+
+const SignupSchema = Yup.object().shape({
+  email: Yup.string().email('올바르지 않은 이메일 형식입니다.').required('이메일은 필수 입력 항목입니다.'),
+  password: Yup.string().required('비밀번호는 필수 입력 항목입니다.'),
+  passwordCheck: Yup.string()
+    .oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.')
+    .required('비밀번호 확인은 필수 입력 항목입니다.'),
+  nickname: Yup.string()
+    .min(2, '2자리 이상 입력해주세요.')
+    .max(12, '12자리 이하로 입력해주세요.')
+    .required('닉네임은 필수 입력 항목입니다.'),
+});
+
+interface Values {
+  email: string;
+  password: string;
+  passwordCheck: string;
+  nickname: string;
+}
 
 function RegisterForm() {
   const dispatch = useAppDispatch();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
-
-  const onChangeEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  const onChangePassword = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const onChangePasswordConfirm = (e: any) => {
-    setPasswordConfirm(e.target.value);
-  };
-
-  const onBlurPasswordCheck = (e: any) => {
-    setTimeout(() => {
-      checkPasswordConfrim(password, passwordConfirm);
-    }, 10);
-  };
-
-  const onChangeNickname = (e: any) => {
-    setNickname(e.target.value);
-  };
-
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    const result = checkForm(email, password, passwordConfirm, nickname);
-    if (result !== "pass") {
-      alert(result);
-      return;
-    }
-    dispatch(AuthActions.register({ email, password, nickname }));
-  };
-
   return (
     <Container>
-      <H1>회원가입</H1>
-      <Form onSubmit={onSubmit}>
-        <Input
-          type="email"
-          value={email}
-          onChange={onChangeEmail}
-          placeholder="이메일"
-          required
-        />
-        <Input
-          type="password"
-          value={password}
-          onChange={onChangePassword}
-          placeholder="비밀번호"
-          required
-        />
-        <Input
-          type="password"
-          value={passwordConfirm}
-          onChange={onChangePasswordConfirm}
-          onBlur={onBlurPasswordCheck}
-          placeholder="비밀번호 확인"
-          required
-        />
-        <Input
-          type="text"
-          value={nickname}
-          onChange={onChangeNickname}
-          placeholder="닉네임"
-          required
-        />
-        <Button type="submit">완료</Button>
-      </Form>
-      <div>
-        <span>이미 가입하셨나요? </span>
-        <Link href="/">
-          <A>로그인</A>
-        </Link>
-      </div>
+      <Title>회원가입</Title>
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          passwordCheck: '',
+          nickname: '',
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={({ email, password, nickname }: Values, { setSubmitting }: FormikHelpers<Values>) => {
+          setSubmitting(true);
+          dispatch(AuthActions.register({ email, password, nickname }));
+          console.log(email, password, nickname);
+          setTimeout(() => {
+            setSubmitting(false);
+          }, 1000);
+        }}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <$Form>
+            <FieldBox>
+              <Label htmlFor="email">이메일</Label>
+              <$Field id="emil" name="email" placeholder="이메일" type="email" />
+              <ErrorBox>{errors.email && touched.email ? <div>{errors.email}</div> : null}</ErrorBox>
+            </FieldBox>
+            <FieldBox>
+              <Label htmlFor="password">비밀번호</Label>
+              <$Field id="password" name="password" placeholder="비밀번호" type="password" />
+              <ErrorBox>{errors.password && touched.password ? <div>{errors.password}</div> : null}</ErrorBox>
+            </FieldBox>
+            <FieldBox>
+              <Label htmlFor="passwordCheck">비밀번호 확인</Label>
+              <$Field id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인" type="password" />
+              <ErrorBox>{errors.passwordCheck && touched.passwordCheck ? <div>{errors.passwordCheck}</div> : null}</ErrorBox>
+            </FieldBox>
+            <FieldBox>
+              <Label htmlFor="nickname">닉네임</Label>
+              <$Field id="nickname" name="nickname" placeholder="닉네임" />
+              <ErrorBox>{errors.nickname && touched.nickname ? <div>{errors.nickname}</div> : null}</ErrorBox>
+            </FieldBox>
+            <Button type="submit" disabled={isSubmitting}>
+              가입하기
+            </Button>
+          </$Form>
+        )}
+      </Formik>
     </Container>
   );
 }
 
-const checkPasswordConfrim = (password: string, passwordConfirm: string) => {
-  if (password !== passwordConfirm) {
-    console.log("패스워드 불일치");
-    return false;
-  } else {
-    console.log("패스워드 일치");
-    return true;
-  }
-};
-
-const checkForm = (
-  email: string,
-  password: string,
-  passwordConfirm: string,
-  nickname: string
-) => {
-  if (email === "") return "이메일을 입력해주세요";
-  if (password === "") return "비밀번호를 입력해주세요";
-  if (!checkPasswordConfrim(password, passwordConfirm))
-    return "비밀번호를 다시 확인해주세요";
-  if (nickname === "") return "닉네임을 입력해주세요";
-  return "pass";
-};
-
 export default RegisterForm;
 
-const flexColumnCenter = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Container = styled.div`
-  ${flexColumnCenter}
+  ${Mixins.flex_column_center};
   width: 100vw;
   height: 100vh;
 `;
 
-const H1 = styled.h1``;
+const Title = styled.h1``;
 
-const Form = styled.form`
-  ${flexColumnCenter}
-  width: 30rem;
+const $Form = styled(Form)`
+  width: 20rem;
+`;
+
+const FieldBox = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Input = styled.input`
+const Label = styled.label`
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+`;
+
+const $Field = styled(Field)`
+  ${Mixins.default_input};
+  display: block;
+  margin-bottom: 0.6rem;
   padding: 0.6rem 0.6rem;
-  width: 60%;
+  width: 100%;
   border-radius: 0.5rem;
-  border: 0;
-  outline: 0;
-  &:focus {
-    background: rgb(194, 194, 194);
-  }
+  border: 1px solid gray;
+`;
+
+const ErrorBox = styled.div`
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.color.error};
 `;
 
 const Button = styled.button`
+  ${Mixins.default_button};
   display: block;
-  width: 60%;
-  padding: 0.6rem 0.6rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.8rem 0.6rem;
   border-radius: 0.5rem;
-  border: 0;
-  color: ${({ theme }) => theme.color.text};
-  background: #8739f9;
-  &:hover {
-    cursor: pointer;
-    background: #9b6dff;
-  }
-`;
-
-const A = styled.a`
-  color: #9b6dff;
-  &:hover {
-    cursor: pointer;
-  }
 `;

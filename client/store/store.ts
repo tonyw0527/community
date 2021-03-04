@@ -1,12 +1,13 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux'
 import { createWrapper } from "next-redux-wrapper";
-import { rootReducer } from './slices'
+import { rootReducer } from './slices';
+import logger from 'redux-logger';
 
 const initStore = (context: any) => configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: getDefaultMiddleware()
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -21,20 +21,23 @@ module.exports = () => {
     passport.use(new JWTStrategy({
         jwtFromRequest: cookieExtractor,
         secretOrKey: process.env.JWT_SECRET
-    },
-    (jwtPayload, done) => {
-        console.log('here')
+    }, async (jwtPayload, done) => {
+        console.log('jwt strategy');
         console.log(jwtPayload);
-        User.findOne({ email: jwtPayload.email }, (err, user) => {
-            if (err) {
-                return done(err, false);
-            }
-            if (user) {
-                return done(null, user);
-            } else {
-                return done(null, false);
-                // or you could create a new account
-            }
-        })
+        const { email } = jwtPayload;
+
+        try {
+          const exUser = await User.findOne({ where: { email }});
+          
+          if(exUser) {
+            return done(null, exUser);
+          } else {
+            return done(null, false);
+            // or you could create a new account
+          }
+        } catch (error) {
+          console.error(error);
+          done(error, false);
+        }
     }));
 }

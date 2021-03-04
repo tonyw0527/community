@@ -1,10 +1,12 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { useDetectOutsideClick } from '../../lib/useDetectOutsideClick';
 import * as AuthAPI from '../../lib/api/auth';
 import styled, { css } from 'styled-components';
 
 function DropdownMenu() {
+  const router = useRouter();
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
 
@@ -12,6 +14,7 @@ function DropdownMenu() {
 
   const onClickLogout = () => {
     AuthAPI.logout();
+    router.push('/');
   };
 
   return (
@@ -29,6 +32,9 @@ function DropdownMenu() {
           </Li>
           <Li>
             <A onClick={onClickLogout}>로그아웃</A>
+          </Li>
+          <Li>
+            <A onClick={() => AuthAPI.authCheck()}>토큰 체크</A>
           </Li>
         </Ul>
       </Nav>

@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
       }
     html,
     body {
-        background: ${({ theme }) => theme.color.body};
-        color: ${({ theme }) => theme.color.text};
+        background: ${({ theme }) => theme.color.background};
+        color: ${({ theme }) => theme.color.on_background};
     }
 `;

@@ -1,5 +1,5 @@
-import MainHeader from "./MainHeader";
-import styled from "styled-components";
+import MainHeader from './MainHeader';
+import styled from 'styled-components';
 
 function Main() {
   return (
