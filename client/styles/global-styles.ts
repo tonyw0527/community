@@ -11,6 +11,6 @@ export const GlobalStyle = createGlobalStyle`
     html,
     body {
         background: ${({ theme }) => theme.color.background};
-        color: ${({ theme }) => theme.color.on_background};
+        color: ${({ theme }) => theme.color.on_background + theme.overlay.high};
     }
 `;

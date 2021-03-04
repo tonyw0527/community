@@ -49,7 +49,7 @@ const darkTheme: DefaultTheme = {
       primary: '#00af91',
       primary_variant: '#184d47',
       secondary: '#58A6FF',
-      secondary_variant: '79C0FF',
+      secondary_variant: '#79C0FF',
       background: '#121212',
       surface: '#121212',
       error: '#CF6679',
