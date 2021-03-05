@@ -37,7 +37,7 @@ const Container = styled.div`
 `;
 
 const ImageBox = styled.div`
-  width: 100%;
+  width: 60%;
   height: 100%;
   background-image: url('https://source.unsplash.com/random?people');
   background-size: cover;
@@ -47,6 +47,7 @@ const ImageBox = styled.div`
 
 const SideBox = styled.div`
   ${Mixins.flex_column_center}
+  width: 40%;
   min-width: 30rem;
 `;
 

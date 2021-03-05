@@ -37,11 +37,11 @@ function AuthForm() {
           <$Form>
             <FieldBox>
               <Label htmlFor="email">이메일</Label>
-              <$Field type="email" id="email" name="email" placeholder="이메일" autoComplete="off" />
+              <$Field type="email" id="email" name="email" />
             </FieldBox>
             <FieldBox>
               <Label htmlFor="password">비밀번호</Label>
-              <$Field type="password" id="password" name="password" placeholder="비밀번호" />
+              <$Field type="password" id="password" name="password" />
             </FieldBox>
             <FieldBox>
               <Field type="checkbox" id="keep-login" name="isAutoLogin" />

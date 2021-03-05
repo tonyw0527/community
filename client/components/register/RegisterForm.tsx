@@ -50,22 +50,22 @@ function RegisterForm() {
           <$Form>
             <FieldBox>
               <Label htmlFor="email">이메일 *</Label>
-              <$Field id="email" name="email" placeholder="이메일" type="email" autoComplete="off" />
+              <$Field id="email" name="email" type="email" autoComplete="off" />
               <ErrorBox>{errors.email && touched.email ? <div>{errors.email}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="password">비밀번호 *</Label>
-              <$Field id="password" name="password" placeholder="비밀번호" type="password" />
+              <$Field id="password" name="password" type="password" />
               <ErrorBox>{errors.password && touched.password ? <div>{errors.password}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="passwordCheck">비밀번호 확인 *</Label>
-              <$Field id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인" type="password" />
+              <$Field id="passwordCheck" name="passwordCheck" type="password" />
               <ErrorBox>{errors.passwordCheck && touched.passwordCheck ? <div>{errors.passwordCheck}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="nickname">닉네임 *</Label>
-              <$Field id="nickname" name="nickname" placeholder="닉네임" autoComplete="off" />
+              <$Field id="nickname" name="nickname" autoComplete="off" />
               <ErrorBox>{errors.nickname && touched.nickname ? <div>{errors.nickname}</div> : null}</ErrorBox>
             </FieldBox>
             <Button type="submit" disabled={isSubmitting}>
