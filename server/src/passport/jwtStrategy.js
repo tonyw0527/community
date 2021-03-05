@@ -22,7 +22,6 @@ module.exports = () => {
         jwtFromRequest: cookieExtractor,
         secretOrKey: process.env.JWT_SECRET
     }, async (jwtPayload, done) => {
-        console.log('jwt strategy');
         console.log(jwtPayload);
         const { email } = jwtPayload;
 
@@ -30,9 +29,9 @@ module.exports = () => {
           const exUser = await User.findOne({ where: { email }});
           
           if(exUser) {
-            return done(null, exUser);
+            done(null, exUser);
           } else {
-            return done(null, false);
+            done(null, false);
             // or you could create a new account
           }
         } catch (error) {

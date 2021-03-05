@@ -8,21 +8,20 @@ const anMonth = new Date(Date.now() + (1000 * 60 * 60 * 24 * 30));
 const cookieOptions = {expires: anMonth, httpOnly: true, secure: false }; // set secure to true in production
 const { User } = require('../../../models');
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   console.log(req.body);
 
     passport.authenticate('local', {session: false}
-    ,(err, user) => {
-        if(err || !user) {
-            console.log(err);
-            console.log(user);
-            return res.status(400).json({
-                message: 'Something is not right',
-                user: user
-            });
+    ,(err, user, info) => {
+        if(err) {
+          console.error(err);
+          next(err);
+        }
+        if(!user) {
+          res.status(401).send(info.message);
         }
         
-        const { id, email, nickname, provider, createdAt  } = user;
+        const { id, email, nickname, provider, createdAt } = user;
         
         if(req.body.isAutoLogin) {
             const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '30 days'});
@@ -33,8 +32,8 @@ exports.login = (req, res) => {
             res.cookie(TOKEN_COOKIE_NAME, token, { httpOnly: true, secure: false });
         }
         
-        return res.status(200).json({
-          user: {
+        res.status(200).json({
+          me: {
             id,
             email,
             nickname,
@@ -42,7 +41,7 @@ exports.login = (req, res) => {
             createdAt,
           }
         });
-    })(req, res); // 미들웨어 내의 미들웨는 (req, res, next)를 붙임.
+    })(req, res, next); // 미들웨어 내의 미들웨어는 (req, res, next)를 붙임.
 };
 
 exports.register = async (req, res) => {
@@ -52,7 +51,7 @@ exports.register = async (req, res) => {
       const exUser = await User.findOne({ where: { email }});
 
       if(exUser) {
-        res.status(400).json({ message: '이미 등록된 email 입니다.' });
+        res.status(403).send('이미 등록된 email 입니다.');
       }
 
       const hash = await bcrypt.hash(password, 12);
@@ -61,7 +60,7 @@ exports.register = async (req, res) => {
         nickname,
         password: hash,
       });
-      res.status(200).json({ message: '회원가입 완료'})
+      res.status(200).send('회원가입 완료');
     } catch(error) {
       console.error(error);
       next(error);
@@ -71,6 +70,5 @@ exports.register = async (req, res) => {
 exports.logout = (req, res) => {
   // destroy token
   res.clearCookie(TOKEN_COOKIE_NAME);
-  res.json('logout');
-  console.log('logout');
+  res.status(200).send('로그아웃 되었습니다.');
 };

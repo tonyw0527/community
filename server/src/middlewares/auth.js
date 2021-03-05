@@ -19,16 +19,22 @@ const authMiddleware = (req, res, next) => {
         if(err || !user) {
             console.log('토큰 인증 실패');
             return res.status(401).json({
-                message: 'Seomthing is not right',
+                message: 'Something is not right',
                 user: user
             });
         }
+        const { id, email, nickname, provider, createdAt } = user;
+        const userDataWithoutPassword = {
+          id,
+          email,
+          nickname,
+          provider,
+          createdAt
+        }
+        req.user = userDataWithoutPassword;
+
         console.log('토큰 인증 성공')
         next();
-        
-        return res.status(200).json({
-            message: 'token access allow'
-        })
     })(req, res, next);
 
 }

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import * as Mixins from '../../styles/mixins';
@@ -13,7 +15,15 @@ interface Values {
 }
 
 function AuthForm() {
+  const { loginLoading, loginDone, loginError } = useRootState((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (loginDone) {
+      dispatch(AuthActions.resetLoginState());
+      Router.push('/main');
+    }
+  }, [loginDone]);
 
   return (
     <Container>
@@ -25,12 +35,7 @@ function AuthForm() {
           isAutoLogin: false,
         }}
         onSubmit={({ email, password, isAutoLogin }: Values, { setSubmitting }: FormikHelpers<Values>) => {
-          setSubmitting(true);
           dispatch(AuthActions.login({ email, password, isAutoLogin }));
-          console.log(email, password);
-          setTimeout(() => {
-            setSubmitting(false);
-          }, 1000);
         }}
       >
         {({ isSubmitting }) => (
@@ -47,8 +52,8 @@ function AuthForm() {
               <Field type="checkbox" id="keep-login" name="isAutoLogin" />
               <label htmlFor="keep-login"> 로그인 유지</label>
             </FieldBox>
-            <ErrorBox></ErrorBox>
-            <Button type="submit" disabled={isSubmitting}>
+            <ErrorBox>{loginError ? loginError : null}</ErrorBox>
+            <Button type="submit" disabled={loginLoading}>
               로그인
             </Button>
             <Link href="/register">
@@ -78,7 +83,7 @@ const $Form = styled(Form)`
 `;
 
 const FieldBox = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
 
 const Label = styled.label`
@@ -94,14 +99,15 @@ const $Field = styled(Field)`
 `;
 
 const ErrorBox = styled.div`
-  font-size: 0.8rem;
+  height: 0.9rem;
+  font-size: 0.9rem;
   color: ${({ theme }) => theme.color.error};
 `;
 
 const Button = styled(DefaultButton)`
   display: block;
   width: 100%;
-  margin: 1.5rem 0;
+  margin: 1rem 0 1.5rem 0;
 `;
 
 const A = styled(DefaultAnchor)`

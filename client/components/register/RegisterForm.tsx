@@ -1,10 +1,12 @@
+import { useEffect } from 'react';
+import Link from 'next/link';
+import Router from 'next/router';
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import * as Mixins from '../../styles/mixins';
-import Link from 'next/link';
 import { DefaultButton, DefaultAnchor, Copyright } from '../common';
-import { useAppDispatch } from '../../store/store';
+import { useRootState, useAppDispatch } from '../../store/store';
 import * as AuthActions from '../../store/slices/auth';
 
 const SignupSchema = Yup.object().shape({
@@ -24,7 +26,19 @@ interface Values {
 }
 
 function RegisterForm() {
+  const { registerLoading, registerDone, registerError } = useRootState((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (registerDone) {
+      alert('회원가입에 성공하셨습니다!');
+      dispatch(AuthActions.resetRegisterState());
+      Router.push('/login');
+    }
+    if (registerError) {
+      alert(registerError);
+    }
+  }, [registerDone, registerError]);
 
   return (
     <Container>
@@ -38,12 +52,7 @@ function RegisterForm() {
         }}
         validationSchema={SignupSchema}
         onSubmit={({ email, password, nickname }: Values, { setSubmitting }: FormikHelpers<Values>) => {
-          setSubmitting(true);
           dispatch(AuthActions.register({ email, password, nickname }));
-          console.log(email, password, nickname);
-          setTimeout(() => {
-            setSubmitting(false);
-          }, 1000);
         }}
       >
         {({ errors, touched, isSubmitting }) => (
@@ -68,7 +77,7 @@ function RegisterForm() {
               <$Field id="nickname" name="nickname" autoComplete="off" />
               <ErrorBox>{errors.nickname && touched.nickname ? <div>{errors.nickname}</div> : null}</ErrorBox>
             </FieldBox>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={registerLoading}>
               가입하기
             </Button>
             <Link href="/login">

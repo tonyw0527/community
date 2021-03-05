@@ -1,21 +1,31 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useRef } from 'react';
 import { useDetectOutsideClick } from '../../lib/useDetectOutsideClick';
-import * as AuthAPI from '../../lib/api/auth';
 import styled, { css } from 'styled-components';
+import { useRootState, useAppDispatch } from '../../store/store';
+import * as AuthActions from '../../store/slices/auth';
 
 function DropdownMenu() {
-  const router = useRouter();
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+
+  const { logoutDone } = useRootState((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   const onClick = () => setIsActive(!isActive);
 
   const onClickLogout = () => {
-    AuthAPI.logout();
-    router.push('/');
+    dispatch(AuthActions.logout());
   };
+
+  useEffect(() => {
+    if (logoutDone) {
+      alert('로그아웃 되었습니다.');
+      Router.push('/');
+    }
+  }, [logoutDone]);
 
   return (
     <MenuContainer>
@@ -34,7 +44,13 @@ function DropdownMenu() {
             <A onClick={onClickLogout}>로그아웃</A>
           </Li>
           <Li>
-            <A onClick={() => AuthAPI.authCheck()}>토큰 체크</A>
+            <A
+              onClick={() => {
+                dispatch(AuthActions.loadMyInfo());
+              }}
+            >
+              토큰 체크
+            </A>
           </Li>
         </Ul>
       </Nav>
