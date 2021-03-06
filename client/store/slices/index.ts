@@ -17,6 +17,5 @@ export const rootReducer = (state: any = {}, action: any) => {
     return combineReducers({
         [counterSlice.name]: counterSlice.reducer,
         [authSlice.name]: authSlice.reducer,
-     // [anotherSlice.name]: anotherSlice.reducer
     })(state, action);
 }

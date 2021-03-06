@@ -85,6 +85,6 @@ const LoginBtn = styled(Button)`
   background: ${({ theme }) => theme.color.background};
   color: ${({ theme }) => theme.color.secondary_variant};
   &:hover {
-    background: #262626;
+    background: ${({ theme }) => (theme.mode === 'light' ? 'rgba(0,0,0,0.03)' : '#262626')};
   }
 `;

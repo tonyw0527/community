@@ -4,13 +4,13 @@ import { DefaultTheme } from 'styled-components';
 // lightTheme
 const lightTheme: DefaultTheme = {
     mode: 'light',
-    mode_img: './sun.svg',
+    mode_img: './icons/sun.svg',
 
     color: {
       primary: '#00af91',
       primary_variant: '#184d47',
-      secondary: '#0366D6',
-      secondary_variant: '#A5D6FF',
+      secondary: '#A5D6FF',
+      secondary_variant: '#0366D6',
       background: '#FFFFFF',
       surface: '#FFFFFF',
       error: '#B00020',
@@ -43,7 +43,7 @@ const lightTheme: DefaultTheme = {
 // darkTheme
 const darkTheme: DefaultTheme = {
     mode: 'dark',
-    mode_img: './moon.svg',
+    mode_img: './icons/moon.svg',
 
     color: {
       primary: '#007965',

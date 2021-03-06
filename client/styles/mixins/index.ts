@@ -28,7 +28,7 @@ export const default_input = css`
   background: ${({ theme }) => theme.color.background};
   color: ${({ theme }) => theme.color.on_background};
   &:hover {
-    border: 1px solid white;
+    border: 1px solid ${({theme})=>theme.mode === 'light' ? '#63C5DA' : 'white'};
   }
   &:focus {
     border: 1px solid ${({ theme }) => theme.color.secondary_variant};

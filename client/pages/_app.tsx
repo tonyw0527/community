@@ -1,10 +1,10 @@
-import { useDarkMode } from "../lib/useDarkMode";
-import { lightTheme, darkTheme } from "../styles/theme";
-import { ThemeProvider } from "styled-components";
-import { GlobalStyle } from "../styles/global-styles";
-import { AppProps } from "next/app";
-import Head from "next/head";
-import { wrapper } from "../store/store";
+import { useDarkMode } from '../lib/useDarkMode';
+import { lightTheme, darkTheme } from '../styles/theme';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from '../styles/global-styles';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import { wrapper } from '../store/store';
 
 function App({ Component, pageProps }: AppProps) {
   const [theme, toggleTheme, componentMounted] = useDarkMode();
@@ -20,9 +20,9 @@ function App({ Component, pageProps }: AppProps) {
         <title>Community</title>
       </Head>
 
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyle />
-        <Component {...pageProps} />
+        <Component {...pageProps} onToggleTheme={toggleTheme} />
       </ThemeProvider>
     </>
   );

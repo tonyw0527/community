@@ -1,10 +1,10 @@
 import MainHeader from './MainHeader';
 import styled from 'styled-components';
 
-function Main() {
+function Main({ onToggleTheme }: any) {
   return (
     <Container>
-      <MainHeader />
+      <MainHeader onToggleTheme={onToggleTheme} />
     </Container>
   );
 }

@@ -5,7 +5,7 @@ import * as AuthActions from '../store/slices/auth';
 import defaultClient from '../lib/defaultClient';
 import MainComponent from '../components/main';
 
-const Main = () => {
+const Main = ({ onToggleTheme }: any) => {
   const { authResult, logoutDone } = useRootState((state) => state.auth);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Main = () => {
     }
   }, [authResult]);
 
-  return <MainComponent />;
+  return <MainComponent onToggleTheme={onToggleTheme} />;
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {

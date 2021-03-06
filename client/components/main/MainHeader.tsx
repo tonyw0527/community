@@ -1,12 +1,12 @@
 import DropdownMenu from './DropdownMenu';
 import styled from 'styled-components';
 
-function MainHeader() {
+function MainHeader({ onToggleTheme }: any) {
   return (
     <header>
       <Container>
         <RightSideBox>
-          <DropdownMenu />
+          <DropdownMenu onToggleTheme={onToggleTheme} />
         </RightSideBox>
       </Container>
     </header>
