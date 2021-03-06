@@ -1,13 +1,13 @@
 import express from 'express';
-const router = express.Router();
 
 // routes
-const auth =  require('./auth');
+import auth from './auth';
 const test = require('./test');
 
 // middlewares
 import authMiddleware from '../../middlewares/auth';
 
+const router = express.Router();
 
 router.use('/auth', auth);
 

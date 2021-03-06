@@ -9,4 +9,4 @@ router.get('/user', authMiddleware, AuthControlloer.user);
 router.post('/register', AuthControlloer.register);
 router.get('/logout', AuthControlloer.logout);
 
-module.exports = router;
+export default router;

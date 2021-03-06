@@ -1,16 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-
 import { sequelize } from './models';
-
-const cookieParser = require('cookie-parser');
-
-const passport = require('passport');
-const passportConfig = require('./passport');
+import passport from 'passport'
+import passportConfig from './passport';
 
 dotenv.config();
+
 const app: express.Application = express();
 app.set('port', process.env.PORT || 3001);
 
