@@ -1,11 +1,12 @@
-const router = require('express').Router();
+import express from 'express';
+const router = express.Router();
 
 // routes
 const auth =  require('./auth');
 const test = require('./test');
 
 // middlewares
-const authMiddleware = require('../../middlewares/auth');
+import authMiddleware from '../../middlewares/auth';
 
 
 router.use('/auth', auth);

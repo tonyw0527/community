@@ -1,11 +1,14 @@
-require('dotenv').config();
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+import dotenv from 'dotenv';
+import passport from 'passport';
+import passportlocal from 'passport-local';
+import bcrypt from 'bcrypt';
+import { User } from '../models';
 
-const { User } = require('../models');
+dotenv.config();
 
-module.exports = () => {
+const LocalStrategy = passportlocal.Strategy;
+
+const local = () => {
     passport.use(new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password',
@@ -30,3 +33,5 @@ module.exports = () => {
       }
     }))
 }
+
+export default local;

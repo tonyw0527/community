@@ -1,4 +1,4 @@
-module.exports = ((sequelize, DataTypes) => {
+const user = (sequelize: any, DataTypes: any) => {
   return sequelize.define('user', {
     email: {
       type: DataTypes.STRING(40),
@@ -28,4 +28,6 @@ module.exports = ((sequelize, DataTypes) => {
     charset: 'utf8',
     collate: 'utf8_general_ci'
   })
-});
+};
+
+export default user;

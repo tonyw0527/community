@@ -1,9 +1,9 @@
-import * as express from 'express';
-const dotenv = require('dotenv');
-const cors = require('cors');
-const morgan = require('morgan');
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import morgan from 'morgan';
 
-const { sequelize } = require('./models');
+import { sequelize } from './models';
 
 const cookieParser = require('cookie-parser');
 
@@ -11,7 +11,7 @@ const passport = require('passport');
 const passportConfig = require('./passport');
 
 dotenv.config();
-const app: express.Application = express.default();
+const app: express.Application = express();
 app.set('port', process.env.PORT || 3001);
 
 sequelize.sync({ force: false })
