@@ -1,13 +1,10 @@
+import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
-import dotenv from 'dotenv';
 
-dotenv.config();
+const jwtAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-const authMiddleware = (req: any, res: any, next: any) => {
-    console.log('start auth middleware');
-
-    passport.authenticate('jwt', {session: false}
-    ,(err: any, user: any, info: any) => {
+    passport.authenticate('jwt', {session: false} ,(err: any, user: any, info: any) => {
+      
       if(err) {
         console.error(err);
         next(err);
@@ -22,6 +19,7 @@ const authMiddleware = (req: any, res: any, next: any) => {
       }
 
       const { id, email, nickname, provider, createdAt } = user;
+      
       const userDataWithoutPassword = {
         id,
         email,
@@ -31,10 +29,9 @@ const authMiddleware = (req: any, res: any, next: any) => {
       }
       req.user = userDataWithoutPassword;
 
-      console.log('토큰 인증 성공')
       next();
     })(req, res, next);
 
 }
 
-export default authMiddleware;
+export default jwtAuthMiddleware;
