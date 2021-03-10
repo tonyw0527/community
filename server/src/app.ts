@@ -1,54 +1,57 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import express from 'express';
+import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 import { sequelize } from './models';
 import passport from 'passport'
 import passportConfig from './passport';
+import APIRoutes from './routes/api';
 
 dotenv.config();
 
+// initialize express app
 const app: express.Application = express();
-app.set('port', process.env.PORT || 3001);
 
+// logger
+app.use(morgan('dev'));
+
+// cors
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true, // send cookies to different domain
+  optionsSuccessStatus: 200
+}));
+
+// parsers
+app.use(express.json()); // application/json 형태의 데이터 파싱
+app.use(express.urlencoded({extended: false})); // application/x-www-form-urlencoded 형태의 데이터 파싱
+app.use(cookieParser()); // cookie 파싱
+
+// connect to mysql db
 sequelize.sync({ force: false })
 .then(() => {
-  console.log('DB 연결 성공');
+  console.log('Success - connecting to MySQL DB');
 })
 .catch((err: any) => {
   console.error(err);
 });
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200
-}));
-app.use(morgan('dev'));
-
-// Parsers
-app.use(express.json()); // application/json 형태의 데이터 파싱
-app.use(express.urlencoded({extended: false})); // application/x-www-form-urlencoded 형태의 데이터 parsing
-app.use(cookieParser()); // 쿠키 파싱
-
-// Passport
+// set up passport
 passportConfig()
 app.use(passport.initialize());
 
-// Routing
-app.use('/api', require('./routes/api'));
+// set up routes
+app.use('/api', APIRoutes);
 
-interface Error extends globalThis.Error {
-  status?: number;
-}
-
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const error: Error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-  error.status = 404;
-  next(error);
+// handling 404
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error(err);
+  next(err);
 })
 
-app.listen(app.get('port'), () => {
-  console.log(`Server is running on ${app.get('port')} now!`);
+// start server
+app.listen(process.env.PORT || 3001, () => {
+  console.log('node_env', process.env.NODE_ENV);
+  console.log(`Server is running on ${process.env.PORT || 3001} now!`);
 });

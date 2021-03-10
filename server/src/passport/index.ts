@@ -1,9 +1,10 @@
 import local from './localStrategy';
-import jwt from './jwtStrategy';
+import * as JWT from './jwtStrategy';
 
 const passportConfig = () => {
   local();
-  jwt();
+  JWT.jwtForAccess();
+  JWT.jwtForRefresh();
 }
 
 export default passportConfig;

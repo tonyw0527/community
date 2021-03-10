@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import Router from 'next/router';
-import { wrapper, useRootState } from '../store/store';
+import { wrapper, useRootState, useAppDispatch } from '../store/store';
 import * as AuthActions from '../store/slices/auth';
 import defaultClient from '../lib/defaultClient';
 import MainComponent from '../components/main';
 
 const Main = ({ onToggleTheme }: any) => {
-  const { authResult, logoutDone } = useRootState((state) => state.auth);
+  const { authResult, logoutDone, loadMyInfoError } = useRootState((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!authResult && !logoutDone) {
@@ -14,6 +15,13 @@ const Main = ({ onToggleTheme }: any) => {
       Router.push('/login');
     }
   }, [authResult]);
+
+  useEffect(() => {
+    if (loadMyInfoError === '토큰이 만료되었습니다 다시 로그인해 주세요.') {
+      alert(loadMyInfoError);
+      dispatch(AuthActions.logout());
+    }
+  }, [loadMyInfoError]);
 
   return <MainComponent onToggleTheme={onToggleTheme} />;
 };

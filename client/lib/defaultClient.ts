@@ -1,13 +1,8 @@
 import axios from 'axios';
 
-const baseURL = (() => {
-  if (process.env.NODE_ENV === 'development') return 'http://localhost:3001/api';
-  return 'https://service-url';
-})();
-
 const defaultClient = axios.create({
-  baseURL,
-  withCredentials: true,
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001/api' : 'https://service-url',
+  withCredentials: true, // send cookies to different domain
 });
 
 export default defaultClient;

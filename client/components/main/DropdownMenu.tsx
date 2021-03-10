@@ -12,7 +12,8 @@ function DropdownMenu({ onToggleTheme }: any) {
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
 
-  const { logoutDone, authResult } = useRootState((state) => state.auth);
+  const { authResult, logoutDone } = useRootState((state) => state.auth);
+
   const dispatch = useAppDispatch();
 
   const onClick = () => setIsActive(!isActive);
@@ -53,7 +54,7 @@ function DropdownMenu({ onToggleTheme }: any) {
           <Li>
             <A
               onClick={() => {
-                dispatch(AuthActions.loadMyInfo());
+                dispatch(AuthActions.loadMyInfo(authResult.token));
               }}
             >
               토큰 체크

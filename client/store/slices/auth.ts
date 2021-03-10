@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as AuthAPI from '../../lib/api/auth';
 
 interface AuthResult {
@@ -6,25 +6,25 @@ interface AuthResult {
     id: string,
     email: string,
     nickname: string,
-    provider: string,
     createdAt: string
-  }
+  },
+  token: string
 }
 
 interface Auth {
   authResult: AuthResult | null,
 
-  loginLoading: boolean,
-  loginDone: boolean,
-  loginError: string | null,
-  
-  loadMyInfoLoading: boolean,
-  loadMyInfoDone: boolean,
-  loadMyInfoError: string | null,
-
   registerLoading: boolean,
   registerDone: boolean,
   registerError: string | null,
+
+  loginLoading: boolean,
+  loginDone: boolean,
+  loginError: string | null,
+
+  loadMyInfoLoading: boolean,
+  loadMyInfoDone: boolean,
+  loadMyInfoError: string | null,
 
   logoutLoading: boolean,
   logoutDone: boolean,
@@ -34,22 +34,34 @@ interface Auth {
 const initialState: Auth = {
   authResult: null,
 
-  loginLoading: false,
-  loginDone: false,
-  loginError: null,
-  
-  loadMyInfoLoading: false,
-  loadMyInfoDone: false,
-  loadMyInfoError: null,
-
   registerLoading: false,
   registerDone: false,
   registerError: null,
+
+  loginLoading: false,
+  loginDone: false,
+  loginError: null,
+
+  loadMyInfoLoading: false,
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
 
   logoutLoading: false,
   logoutDone: false,
   logoutError: null,
 }
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async ({email, password, nickname}: AuthAPI.RegisterForm, thunkAPI) => {
+    try {
+      const response = await AuthAPI.register({ email, password, nickname });
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -65,21 +77,9 @@ export const login = createAsyncThunk(
 
 export const loadMyInfo = createAsyncThunk(
   'auth/loadMyInfo',
-  async (undefined, thunkAPI) => {
+  async (token: string | undefined, thunkAPI) => {
     try {
-      const response = await AuthAPI.loadMyInfo();
-      return response.data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
-    }
-  }
-)
-
-export const register = createAsyncThunk(
-  'auth/register',
-  async ({email, password, nickname}: AuthAPI.RegisterForm, thunkAPI) => {
-    try {
-      const response = await AuthAPI.register({ email, password, nickname });
+      const response = await AuthAPI.loadMyInfo(token);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -115,6 +115,20 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
+    // register
+    [register.pending.type]: (state) => {
+      state.registerLoading = true;
+      state.registerDone = false;
+      state.registerError = null;
+    },
+    [register.fulfilled.type]: (state) => {
+      state.registerLoading = false;
+      state.registerDone = true;
+    },
+    [register.rejected.type]: (state, action: PayloadAction<string|null>) => {
+      state.registerLoading = false;
+      state.registerError = action.payload;
+    },
     // login
     [login.pending.type]: (state) => {
       state.loginLoading = true;
@@ -144,20 +158,6 @@ export const authSlice = createSlice({
     [loadMyInfo.rejected.type]: (state, action: PayloadAction<string|null>) => {
       state.loadMyInfoLoading = false;
       state.loadMyInfoError = action.payload;
-    },
-    // register
-    [register.pending.type]: (state) => {
-      state.registerLoading = true;
-      state.registerDone = false;
-      state.registerError = null;
-    },
-    [register.fulfilled.type]: (state) => {
-      state.registerLoading = false;
-      state.registerDone = true;
-    },
-    [register.rejected.type]: (state, action: PayloadAction<string|null>) => {
-      state.registerLoading = false;
-      state.registerError = action.payload;
     },
     // logout
     [logout.pending.type]: (state) => {
