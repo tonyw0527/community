@@ -12,9 +12,14 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   
   try {
     const exUser = await User.findOne({ where: { email }});
+    const exNick = await User.findOne({ where: { nickname }});
 
     if(exUser) {
-      res.status(403).send('이미 등록된 email 입니다.');
+      res.status(403).send('이미 등록된 Email 입니다.');
+    }
+
+    if(exNick) {
+      res.status(403).send('이미 등록된 Nickname 입니다.');
     }
 
     const hash = await bcrypt.hash(password, 12);

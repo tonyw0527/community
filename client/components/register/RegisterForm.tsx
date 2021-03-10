@@ -8,6 +8,7 @@ import * as Mixins from '../../styles/mixins';
 import { DefaultButton, DefaultAnchor, Copyright } from '../common';
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as AuthActions from '../../store/slices/auth';
+import { Popup } from '../common';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('올바르지 않은 이메일 형식입니다.').required('이메일은 필수 항목입니다.'),
@@ -31,12 +32,12 @@ function RegisterForm() {
 
   useEffect(() => {
     if (registerDone) {
-      alert('회원가입에 성공하셨습니다!');
+      Popup.success('회원가입에 성공하셨습니다!');
       dispatch(AuthActions.resetRegisterState());
       Router.push('/login');
     }
     if (registerError) {
-      alert(registerError);
+      Popup.error(registerError);
     }
   }, [registerDone, registerError]);
 

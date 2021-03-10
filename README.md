@@ -4,7 +4,7 @@ Simple web community service boilerPlate with Typescript.
 
 ## Features
 
-- SSR with Next.js
+- Next.js with Redux and Mysql
 - Authentication with access token & refresh token
 
 ## Tech Stack
@@ -22,7 +22,8 @@ Server
 - Express.js
 - Mysql
 - Sequelize
-- jsonwebtoken
+- Passport.js
+- Jsonwebtoken
 
 ## environments
 

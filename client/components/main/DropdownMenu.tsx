@@ -7,6 +7,7 @@ import DarkModeToggleButton from './DarkModeToggleButton';
 import styled, { css } from 'styled-components';
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as AuthActions from '../../store/slices/auth';
+import { Popup } from '../../components/common';
 
 function DropdownMenu({ onToggleTheme }: any) {
   const dropdownRef = useRef<HTMLElement>(null);
@@ -24,7 +25,7 @@ function DropdownMenu({ onToggleTheme }: any) {
 
   useEffect(() => {
     if (logoutDone) {
-      alert('로그아웃 되었습니다.');
+      Popup.success('로그아웃 되었습니다.');
       Router.push('/');
     }
   }, [logoutDone]);
@@ -58,6 +59,15 @@ function DropdownMenu({ onToggleTheme }: any) {
               }}
             >
               토큰 체크
+            </A>
+          </Li>
+          <Li>
+            <A
+              onClick={() => {
+                Popup.error('테스트 화면 입니다.');
+              }}
+            >
+              다이나믹 메세지 체크
             </A>
           </Li>
           <Li>

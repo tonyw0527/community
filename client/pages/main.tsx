@@ -4,6 +4,7 @@ import { wrapper, useRootState, useAppDispatch } from '../store/store';
 import * as AuthActions from '../store/slices/auth';
 import defaultClient from '../lib/defaultClient';
 import MainComponent from '../components/main';
+import { Popup } from '../components/common';
 
 const Main = ({ onToggleTheme }: any) => {
   const { authResult, logoutDone, loadMyInfoError } = useRootState((state) => state.auth);
@@ -11,14 +12,14 @@ const Main = ({ onToggleTheme }: any) => {
 
   useEffect(() => {
     if (!authResult && !logoutDone) {
-      alert('로그인이 필요한 페이지입니다.');
+      Popup.success('로그인이 필요한 페이지입니다.');
       Router.push('/login');
     }
   }, [authResult]);
 
   useEffect(() => {
     if (loadMyInfoError === '토큰이 만료되었습니다 다시 로그인해 주세요.') {
-      alert(loadMyInfoError);
+      Popup.success(loadMyInfoError);
       dispatch(AuthActions.logout());
     }
   }, [loadMyInfoError]);
