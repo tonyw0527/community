@@ -2,6 +2,11 @@
 
 Simple web community service boilerPlate with Typescript.
 
+## Features
+
+- SSR with Next.js
+- Authentication with access token & refresh token
+
 ## Tech Stack
 
 Client
@@ -19,6 +24,14 @@ Server
 - Sequelize
 - jsonwebtoken
 
-## JWT Auth
+## environments
 
-- access token & refresh token
+server/.env
+
+```sh
+PORT=
+TOKEN_ISSUER=
+ACCESS_TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
+REFRESH_TOKEN_NAME=
+```
