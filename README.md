@@ -2,6 +2,8 @@
 
 Simple web community service boilerPlate with Typescript.
 
+Look component & stories [here](https://www.chromatic.com/library?appId=604fd3dc2409ed002109132e)
+
 ## Features
 
 - Next.js with Redux and Mysql
@@ -13,8 +15,9 @@ Client
 
 - React.js
 - Next.js
-- Redux
-- Styled-components
+- Redux-toolkit
+- Emotion
+- Storybook
 
 Server
 
