@@ -1,7 +1,7 @@
-import DefaultButton from './DefaultButton';
-import DefaultInput from './DefaultInput';
-import DefaultAnchor from './DefaultAnchor';
-import Copyright from './Copyright';
-import Popup from './Popup';
+import Anchor from './anchor/Anchor';
+import Button from './button/Button';
+import Input from './input/Input';
+import Popup from './popup/Popup';
+import Copyright from './copyright/Copyright';
 
-export { DefaultButton, DefaultInput, DefaultAnchor, Copyright, Popup };
+export { Anchor, Button, Input, Popup, Copyright };

@@ -1,5 +1,5 @@
 import MainHeader from './MainHeader';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 function Main({ onToggleTheme }: any) {
   return (

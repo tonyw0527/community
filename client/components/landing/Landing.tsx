@@ -1,19 +1,22 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import Link from 'next/link';
-import styled from 'styled-components';
-import * as Mixins from '../../styles/mixins';
-import { DefaultButton, Copyright } from '../common';
+import { jsx, css, Theme } from '@emotion/react';
+import styled from '@emotion/styled';
+import { Copyright } from '../common';
+import { Button } from '../common';
 
 function Landing() {
   return (
     <Container>
-      <ImageBox></ImageBox>
+      <div css={ImageBox}></div>
       <SideBox>
         <Title>Community</Title>
         <P>자유로운 커뮤니티에 참여하세요.</P>
         <LinkBox>
           <Link href="/login">
             <a>
-              <LoginBtn>로그인</LoginBtn>
+              <Button css={loginBtn}>로그인</Button>
             </a>
           </Link>
           <Link href="/register">
@@ -36,7 +39,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const ImageBox = styled.div`
+const ImageBox = css`
   width: 60%;
   height: 100%;
   background-image: url('https://source.unsplash.com/random?people');
@@ -46,7 +49,11 @@ const ImageBox = styled.div`
 `;
 
 const SideBox = styled.div`
-  ${Mixins.flex_column_center}
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   width: 40%;
   min-width: 30rem;
 `;
@@ -71,20 +78,7 @@ const LinkBox = styled.div`
   margin-bottom: 1.5rem;
 `;
 
-const Button = styled(DefaultButton)`
-  width: 10rem;
-  margin: 1rem 0.5rem;
-  @media screen and (min-width: 769px) {
-    font-size: 1.3rem;
-  }
-`;
-
-const LoginBtn = styled(Button)`
-  border: 1px solid ${({ theme }) => theme.color.secondary_variant};
-  border-radius: 0.5rem;
-  background: ${({ theme }) => theme.color.background};
-  color: ${({ theme }) => theme.color.secondary_variant};
-  &:hover {
-    background: ${({ theme }) => (theme.mode === 'light' ? 'rgba(0,0,0,0.03)' : '#262626')};
-  }
+const loginBtn = (theme: Theme) => css`
+  background: ${theme.color.background};
+  color: ${theme.color.onBackground};
 `;

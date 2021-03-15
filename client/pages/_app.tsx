@@ -1,6 +1,6 @@
 import { useDarkMode } from '../lib/useDarkMode';
 import { lightTheme, darkTheme } from '../styles/theme';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '@emotion/react';
 import { GlobalStyle } from '../styles/global-styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';

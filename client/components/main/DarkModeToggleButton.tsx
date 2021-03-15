@@ -1,10 +1,13 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+import { useTheme } from '@emotion/react';
 
 type DarkModeToggleButtonProps = {
   onToggleTheme: () => void;
 };
 
 function DarkModeToggleButton({ onToggleTheme }: DarkModeToggleButtonProps) {
+  const theme = useTheme();
+
   const handleToggleTheme = () => {
     onToggleTheme();
   };
@@ -12,7 +15,7 @@ function DarkModeToggleButton({ onToggleTheme }: DarkModeToggleButtonProps) {
   return (
     <Container>
       <Wrapper onClick={handleToggleTheme}>
-        <Button></Button>
+        <Button theme={theme}></Button>
       </Wrapper>
     </Container>
   );
@@ -38,7 +41,7 @@ const Button = styled.button`
   border: 0;
   border-radius: 20px;
   outline: 0;
-  background: url(${({ theme }) => theme.mode_img});
+  background: url(${({ theme }) => theme.modeImg});
 
   &:hover {
     cursor: pointer;

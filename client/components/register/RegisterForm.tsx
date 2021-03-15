@@ -3,12 +3,13 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import styled from 'styled-components';
-import * as Mixins from '../../styles/mixins';
-import { DefaultButton, DefaultAnchor, Copyright } from '../common';
+import styled from '@emotion/styled';
+import { useTheme } from '@emotion/react';
+
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as AuthActions from '../../store/slices/auth';
-import { Popup } from '../common';
+
+import { Button, Anchor, Copyright, Popup } from '../common';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('올바르지 않은 이메일 형식입니다.').required('이메일은 필수 항목입니다.'),
@@ -26,14 +27,21 @@ interface Values {
   nickname: string;
 }
 
-function RegisterForm() {
-  const { registerLoading, registerDone, registerError } = useRootState((state) => state.auth);
-  const dispatch = useAppDispatch();
+export interface RegisterFormProps {
+  registerLoading: boolean;
+  registerDone: boolean;
+  registerError: string | null;
+  onResetRegisterState: () => void;
+  onRegister: (email: string, password: string, nickname: string) => void;
+}
+
+export function RegisterForm({ registerLoading, registerDone, registerError, onResetRegisterState, onRegister }: RegisterFormProps) {
+  const theme = useTheme();
 
   useEffect(() => {
     if (registerDone) {
       Popup.success('회원가입에 성공하셨습니다!');
-      dispatch(AuthActions.resetRegisterState());
+      onResetRegisterState();
       Router.push('/login');
     }
     if (registerError) {
@@ -53,52 +61,79 @@ function RegisterForm() {
         }}
         validationSchema={SignupSchema}
         onSubmit={({ email, password, nickname }: Values, { setSubmitting }: FormikHelpers<Values>) => {
-          dispatch(AuthActions.register({ email, password, nickname }));
+          onRegister(email, password, nickname);
         }}
       >
         {({ errors, touched, isSubmitting }) => (
           <$Form>
             <FieldBox>
               <Label htmlFor="email">이메일 *</Label>
-              <$Field id="email" name="email" type="email" autoComplete="off" />
-              <ErrorBox>{errors.email && touched.email ? <div>{errors.email}</div> : null}</ErrorBox>
+              <$Field theme={theme} id="email" name="email" type="email" autoComplete="off" />
+              <ErrorBox theme={theme}>{errors.email && touched.email ? <div>{errors.email}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="password">비밀번호 *</Label>
-              <$Field id="password" name="password" type="password" />
-              <ErrorBox>{errors.password && touched.password ? <div>{errors.password}</div> : null}</ErrorBox>
+              <$Field theme={theme} id="password" name="password" type="password" />
+              <ErrorBox theme={theme}>{errors.password && touched.password ? <div>{errors.password}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="passwordCheck">비밀번호 확인 *</Label>
-              <$Field id="passwordCheck" name="passwordCheck" type="password" />
-              <ErrorBox>{errors.passwordCheck && touched.passwordCheck ? <div>{errors.passwordCheck}</div> : null}</ErrorBox>
+              <$Field theme={theme} id="passwordCheck" name="passwordCheck" type="password" />
+              <ErrorBox theme={theme}>{errors.passwordCheck && touched.passwordCheck ? <div>{errors.passwordCheck}</div> : null}</ErrorBox>
             </FieldBox>
             <FieldBox>
               <Label htmlFor="nickname">닉네임 *</Label>
-              <$Field id="nickname" name="nickname" autoComplete="off" />
-              <ErrorBox>{errors.nickname && touched.nickname ? <div>{errors.nickname}</div> : null}</ErrorBox>
+              <$Field theme={theme} id="nickname" name="nickname" autoComplete="off" />
+              <ErrorBox theme={theme}>{errors.nickname && touched.nickname ? <div>{errors.nickname}</div> : null}</ErrorBox>
             </FieldBox>
-            <Button type="submit" disabled={registerLoading}>
+            <CompleteBtn type="submit" disabled={registerLoading}>
               가입하기
-            </Button>
+            </CompleteBtn>
             <Link href="/login">
               <A>이미 회원이신가요? 로그인하기</A>
             </Link>
           </$Form>
         )}
       </Formik>
-
       <Copyright />
     </Container>
   );
 }
 
-export default RegisterForm;
+export default function connect() {
+  const { registerLoading, registerDone, registerError } = useRootState((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const onResetRegisterState = () => {
+    dispatch(AuthActions.resetRegisterState());
+  };
+
+  const onRegister = (email: string, password: string, nickname: string) => {
+    dispatch(AuthActions.register({ email, password, nickname }));
+  };
+
+  return (
+    <RegisterForm
+      registerLoading={registerLoading}
+      registerDone={registerDone}
+      registerError={registerError}
+      onResetRegisterState={onResetRegisterState}
+      onRegister={onRegister}
+    />
+  );
+}
 
 const Container = styled.div`
-  ${Mixins.flex_column_center};
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 769px) {
+    height: 100%;
+  }
 `;
 
 const H1 = styled.h1``;
@@ -118,10 +153,27 @@ const Label = styled.label`
 `;
 
 const $Field = styled(Field)`
-  ${Mixins.default_input}
   width: 100%;
   display: block;
   margin-bottom: 0.6rem;
+  padding: 1.1rem 0.9rem;
+
+  border-radius: 0.3rem;
+  border: 1px solid gray;
+
+  outline: 0;
+
+  background: ${({ theme }) => theme.color.background};
+  color: ${({ theme }) => theme.color.onBackground};
+
+  &:hover {
+    border: 1px solid ${({ theme }) => (theme.mode === 'light' ? '#63C5DA' : 'white')};
+  }
+
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.color.secondaryVariant};
+    background: ${({ theme }) => theme.color.background};
+  }
 `;
 
 const ErrorBox = styled.div`
@@ -129,13 +181,13 @@ const ErrorBox = styled.div`
   color: ${({ theme }) => theme.color.error};
 `;
 
-const Button = styled(DefaultButton)`
+const CompleteBtn = styled(Button)`
   display: block;
   width: 100%;
   margin: 1.5rem 0;
 `;
 
-const A = styled(DefaultAnchor)`
+const A = styled(Anchor)`
   display: block;
   width: 100%;
   text-align: end;

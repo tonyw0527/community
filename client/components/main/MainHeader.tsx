@@ -1,27 +1,29 @@
-import DropdownMenu from './DropdownMenu';
-import styled from 'styled-components';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import DropdownMenu from './DropdownMenu/DropdownMenu';
+import { jsx, css, Theme } from '@emotion/react';
 
 function MainHeader({ onToggleTheme }: any) {
   return (
     <header>
-      <Container>
-        <RightSideBox>
+      <div css={Container}>
+        <div css={RightSideBox}>
           <DropdownMenu onToggleTheme={onToggleTheme} />
-        </RightSideBox>
-      </Container>
+        </div>
+      </div>
     </header>
   );
 }
 
 export default MainHeader;
 
-const Container = styled.div`
+const Container = (theme: Theme) => css`
   width: 100vw;
   height: 3rem;
-  background: ${({ theme }) => theme.color.primary};
+  background: ${theme.color.primary};
 `;
 
-const RightSideBox = styled.div`
+const RightSideBox = css`
   position: absolute;
   top: 0.7rem;
   right: 1rem;

@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@storybook/addons": "^6.1.21",
+    "storybook-dark-mode": "^1.0.7"
+  }
+}

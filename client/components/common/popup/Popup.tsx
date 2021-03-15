@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import styled from 'styled-components';
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 class Popup {
   static normal(content: string, timeout?: number) {
@@ -22,6 +23,7 @@ class Popup {
   static popup(type: string, content: string, timeout = 3000) {
     const container = document.createElement('div');
     document.body.appendChild(container);
+
     const close = () => {
       unmountComponentAtNode(container);
       container.parentNode?.removeChild(container);
@@ -37,13 +39,16 @@ class Popup {
 
 export default Popup;
 
-interface GlobalPopupProps {
+export interface GlobalPopupProps {
   type: string;
   content: string;
   onClose: () => void;
 }
 
-function GlobalPopup({ type, content, onClose }: GlobalPopupProps) {
+export function GlobalPopup({ type, content, onClose }: GlobalPopupProps) {
+  const theme = useTheme(); // for storybook
+  const localTheme = localStorage.getItem('theme');
+
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,9 +69,11 @@ function GlobalPopup({ type, content, onClose }: GlobalPopupProps) {
     <>
       <Overlay ptype={type} />
       <Wrapper>
-        <Section tabIndex={-1} ref={sectionRef}>
+        <Section theme={theme} localTheme={localTheme} tabIndex={-1} ref={sectionRef}>
           <H3 ptype={type}>{setTitle(type)}</H3>
-          <P ptype={type}>{content}</P>
+          <P theme={theme} localTheme={localTheme} ptype={type}>
+            {content}
+          </P>
           <BottomButton ptype={type} tabIndex={0} onClick={onClose}>
             close
           </BottomButton>
@@ -111,7 +118,7 @@ const setColor = (ptype: string) => {
       result = '#FF5C77';
       break;
     default: {
-      result = '#74737A';
+      result = '#868e96';
       break;
     }
   }
@@ -139,7 +146,7 @@ const Wrapper = styled.div`
   outline: 0;
 `;
 
-const Section = styled.section`
+const Section = styled.section<{ localTheme: string | null }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -154,15 +161,22 @@ const Section = styled.section`
   top: 50%;
   transform: translateY(-50%);
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-  background: white;
+  background: ${({ theme }) => (theme.color !== undefined ? theme.color.background + '94' : '')};
+  background: ${({ theme, localTheme }) =>
+    localTheme !== null ? (localTheme === 'light' ? '#FFFFFF' : '#121212') : theme.color.background + '94'};
 `;
+
 const H3 = styled.h3<{ ptype: string }>`
+  margin: 0;
   text-align: center;
   color: ${({ ptype }) => setColor(ptype)};
 `;
-const P = styled.p<{ ptype: string }>`
+
+const P = styled.p<{ ptype: string; localTheme: string | null }>`
   margin: 1.5rem;
-  color: black;
+  color: ${({ theme }) => (theme.color !== undefined ? theme.color.onBackground : '')};
+  color: ${({ theme, localTheme }) =>
+    localTheme !== null ? (localTheme === 'light' ? '#000000DE' : '#FFFFFFDE') : theme.color.onBackground};
 `;
 
 const BottomButton = styled.button<{ ptype: string }>`

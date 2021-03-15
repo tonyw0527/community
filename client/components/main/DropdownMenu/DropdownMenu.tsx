@@ -1,26 +1,34 @@
-import { useEffect } from 'react';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { useEffect, forwardRef } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useRef } from 'react';
-import { useDetectOutsideClick } from '../../lib/useDetectOutsideClick';
-import DarkModeToggleButton from './DarkModeToggleButton';
-import styled, { css } from 'styled-components';
-import { useRootState, useAppDispatch } from '../../store/store';
-import * as AuthActions from '../../store/slices/auth';
-import { Popup } from '../../components/common';
+import { useDetectOutsideClick } from '../../../lib/useDetectOutsideClick';
+import DarkModeToggleButton from '../DarkModeToggleButton';
+import styled from '@emotion/styled';
+import { jsx, css, useTheme, Theme } from '@emotion/react';
+import { useRootState, useAppDispatch } from '../../../store/store';
+import * as AuthActions from '../../../store/slices/auth';
+import { Popup } from '../../common';
 
-function DropdownMenu({ onToggleTheme }: any) {
+export interface DropdownMenuProps {
+  authResult: any;
+  logoutDone: boolean;
+  onLogout: () => void;
+  onLoadMyInfo: (token: string) => void;
+  onToggleTheme: () => void;
+}
+
+export function DropdownMenu({ authResult, logoutDone, onLogout, onLoadMyInfo, onToggleTheme }: DropdownMenuProps) {
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-
-  const { authResult, logoutDone } = useRootState((state) => state.auth);
-
-  const dispatch = useAppDispatch();
+  const theme = useTheme();
 
   const onClick = () => setIsActive(!isActive);
 
   const onClickLogout = () => {
-    dispatch(AuthActions.logout());
+    onLogout();
   };
 
   useEffect(() => {
@@ -32,11 +40,11 @@ function DropdownMenu({ onToggleTheme }: any) {
 
   return (
     <MenuContainer>
-      <MenuTriggerBtn type="button" onClick={onClick}>
+      <MenuTriggerBtn theme={theme} type="button" onClick={onClick}>
         <Span>User</Span>
         {/* <Img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/df/df7789f313571604c0e4fb82154f7ee93d9989c6.jpg" alt="User avatar" /> */}
       </MenuTriggerBtn>
-      <Nav ref={dropdownRef} isActive={isActive ? true : false}>
+      <Nav theme={theme} ref={dropdownRef} isActive={isActive ? true : false}>
         <Ul>
           <Li>
             <UserBox>
@@ -55,7 +63,7 @@ function DropdownMenu({ onToggleTheme }: any) {
           <Li>
             <A
               onClick={() => {
-                dispatch(AuthActions.loadMyInfo(authResult.token));
+                onLoadMyInfo(authResult.token);
               }}
             >
               토큰 체크
@@ -79,14 +87,35 @@ function DropdownMenu({ onToggleTheme }: any) {
   );
 }
 
-export default DropdownMenu;
+export default function connect({ onToggleTheme }: any) {
+  const { authResult, logoutDone } = useRootState((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const onLogout = () => {
+    dispatch(AuthActions.logout());
+  };
+
+  const onLoadMyInfo = (token: string) => {
+    dispatch(AuthActions.loadMyInfo(token));
+  };
+
+  return (
+    <DropdownMenu
+      authResult={authResult}
+      logoutDone={logoutDone}
+      onLogout={onLogout}
+      onLoadMyInfo={onLoadMyInfo}
+      onToggleTheme={onToggleTheme}
+    />
+  );
+}
 
 const MenuContainer = styled.div`
   position: relative;
 `;
 
 const MenuTriggerBtn = styled.button`
-  background: ${({ theme }) => theme.color.on_primary};
+  background: ${({ theme }) => theme.color.onPrimary};
   border-radius: 90px;
   display: flex;
   justify-content: space-between;
@@ -142,39 +171,55 @@ const Ul = styled.ul`
   margin: 0;
 `;
 
-const Li = styled.li`
+const ListStyle = (theme: Theme) => css`
   display: flex;
   justify-content: center;
-  &:first-child {
-    border-bottom: 1px solid ${({ theme }) => (theme.mode === 'light' ? '#DDDDDD' : 'rgba(0, 0, 0, 0.6)')};
+  &:first-of-type {
+    border-bottom: 1px solid ${theme.mode === 'light' ? '#DDDDDD' : 'rgba(0, 0, 0, 0.6)'};
   }
   &:last-child {
-    border-top: 1px solid ${({ theme }) => (theme.mode === 'light' ? '#DDDDDD' : 'rgba(0, 0, 0, 0.6)')};
+    border-top: 1px solid ${theme.mode === 'light' ? '#DDDDDD' : 'rgba(0, 0, 0, 0.6)'};
     border-bottom: 0;
   }
 `;
 
+function Li(props: React.LiHTMLAttributes<HTMLLIElement>) {
+  return (
+    <li css={ListStyle} {...props}>
+      {props.children}
+    </li>
+  );
+}
+
 const UserBox = styled.div`
   padding: 1rem;
 `;
+
 const NickBox = styled.div`
   margin-bottom: 0.3rem;
   font-size: 1.1rem;
   font-weight: 700;
 `;
-const EmailBox = styled.div`
-  color: ${({ theme }) => theme.color.on_background + theme.overlay.dp24};
-`;
 
-const A = styled.a`
+const EmailBox = styled.div``;
+
+const AnchorStyle = (theme: Theme) => css`
   display: block;
   padding: 13px 20px;
   width: 100%;
   font-size: 0.95rem;
   text-decoration: none;
-  color: ${({ theme }) => (theme.mode === 'light' ? '#000000' : '#c9d1d9')};
+  color: ${theme.mode === 'light' ? '#000000' : '#c9d1d9'};
   &:hover {
     cursor: pointer;
-    background: ${({ theme }) => (theme.mode === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.3)')};
+    background: ${theme.mode === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.3)'};
   }
 `;
+
+const A: any = forwardRef(function A(props, ref): any {
+  return (
+    <a css={AnchorStyle} {...props}>
+      {props.children}
+    </a>
+  );
+});
