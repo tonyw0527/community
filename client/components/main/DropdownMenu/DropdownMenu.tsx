@@ -122,7 +122,7 @@ const MenuTriggerBtn = styled.button`
   align-items: center;
   padding: 4px 6px;
   outline: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   border: none;
   vertical-align: middle;
   transition: box-shadow 0.4s ease;
