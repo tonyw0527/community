@@ -7,9 +7,6 @@ export default {
   title: 'RegisterForm',
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      inlineStories: false,
-    },
   },
 } as Meta;
 
