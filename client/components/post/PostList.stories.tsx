@@ -1,0 +1,72 @@
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import PostList, { PostListProps } from './PostList';
+
+export default {
+  component: PostList,
+  title: 'PostList',
+} as Meta;
+
+const Template: Story<PostListProps> = (args) => <PostList {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  data: [
+    {
+      title: '화살표 함수',
+      markdown: `~~~js
+const foo = () => ();`,
+    },
+    {
+      title: '변수 선언',
+      markdown: `~~~js
+const foo = 1; // 선언 후 값 변경 불가
+let bar = 0; // 선언 후 값 변경 가능`,
+    },
+    {
+      title: 'if문',
+      markdown: `~~~js
+if(true){
+  console.log('true here');
+} else {
+  console.log('false here');
+}`,
+    },
+    {
+      title: 'else if 문',
+      markdown: `~~~js
+if(num < 0){
+  console.log('-');
+} else if (num > 0) {
+  console.log('+');
+} else {
+  console.log('0');
+}  else if (num > 0) {
+  console.log('+');
+} else {
+  console.log('0');
+} else {
+  console.log('0');
+}  else if (num > 0) {
+  console.log('+');
+} else {
+  console.log('0');
+}`,
+    },
+    {
+      title: 'map 함수',
+      markdown: `~~~js
+arr.map((item, index) => {
+  return item + index;
+})`,
+    },
+    {
+      title: 'for 문',
+      markdown: `~~~js
+// 10번 반복하여 콘솔 출력
+for(let i=0; i<10; i++){
+  console.log(i);
+}`,
+    },
+  ],
+};

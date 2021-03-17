@@ -3,6 +3,7 @@ import { Story, Meta } from '@storybook/react';
 import Main from './Main';
 import { Provider } from 'react-redux';
 import { action } from '@storybook/addon-actions';
+import * as PostListStories from '../post/PostList.stories';
 
 // A super-simple mock of a redux store
 const store: any = {
@@ -39,5 +40,6 @@ const Template: Story = (args) => <Main {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  data: PostListStories.Default.args?.data,
   onToggleTheme: () => console.log('toggle'),
 };

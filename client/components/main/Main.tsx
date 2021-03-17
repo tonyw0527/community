@@ -1,10 +1,12 @@
 import MainHeader from './MainHeader';
+import PostList from '../post/PostList';
 import styled from '@emotion/styled';
 
-function Main({ onToggleTheme }: any) {
+function Main({ data, onToggleTheme }: any) {
   return (
     <Container>
       <MainHeader onToggleTheme={onToggleTheme} />
+      <PostList data={data} />
     </Container>
   );
 }
