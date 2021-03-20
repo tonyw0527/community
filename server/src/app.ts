@@ -54,9 +54,12 @@ createConnection().then(async connection => {
     const tony = await getRepository(User).findOne({ email: '1@2.com' });
 
     const post = new Snippet();
-    post.title = 'test';
-    post.slug = '/test';
-    post.sanitizedHtml = '<code>test</code>';
+    post.title = 'test my post';
+    post.markdown = `~~~js
+function() {
+  return true;
+}
+~~~`;
     post.user = tony!;
 
     await getRepository(Snippet).save(post);
