@@ -36,4 +36,5 @@ yarn-error.log*
 # server
 .env
 /server/config
+/server/dist
 api.rest
