@@ -24,7 +24,7 @@ Server
 - Node.js
 - Express.js
 - Mysql
-- Sequelize
+- Typeorm
 - Passport.js
 - Jsonwebtoken
 

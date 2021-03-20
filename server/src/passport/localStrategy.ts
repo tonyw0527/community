@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import passportlocal from 'passport-local';
 import bcrypt from 'bcrypt';
-import { User } from '../models';
+import { getRepository } from 'typeorm';
+import User from '../entity/User';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const local = () => {
     }, async (email, password, done) => {
       
       try {
-        const exUser = await User.findOne({ where: { email }});
+        const exUser = await getRepository(User).findOne({ email });
 
         if(exUser) {
           const result = await bcrypt.compare(password, exUser.password);

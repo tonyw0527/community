@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 import { Request, Response, NextFunction} from 'express';
 import bcrypt from 'bcrypt';
-import { User } from '../../../models';
 import jwt from 'jsonwebtoken';
+import { getRepository } from 'typeorm';
+import User from '../../../entity/User';
 
 dotenv.config();
 
@@ -11,24 +12,24 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, nickname } = req.body;
   
   try {
-    const exUser = await User.findOne({ where: { email }});
-    const exNick = await User.findOne({ where: { nickname }});
+    const exist = await getRepository(User).createQueryBuilder()
+    .where('email = :email OR nickname = :nickname', { email, nickname })
+    .getOne();
 
-    if(exUser) {
-      res.status(403).send('이미 등록된 Email 입니다.');
-    }
-
-    if(exNick) {
-      res.status(403).send('이미 등록된 Nickname 입니다.');
+    if(exist) {
+      let msg = '';
+      email === exist.email ? msg = '이미 등록된 Email 입니다.' : msg = '이미 등록된 Nickname 입니다.';
+      res.status(403).send(msg);
     }
 
     const hash = await bcrypt.hash(password, 12);
 
-    await User.create({
-      email,
-      nickname,
-      password: hash,
-    });
+    const user = new User();
+    user.email = email;
+    user.nickname = nickname;
+    user.password = hash;
+
+    await getRepository(User).save(user);
 
     res.status(200).send('회원가입 완료');
   } catch(err) {
@@ -37,14 +38,17 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const login = (req: any, res: Response, next: NextFunction) => {
+const login = async (req: any, res: Response, next: NextFunction) => {
   if(req.user) {
     const { email } = req.user;
     const { accessToken, refreshToken } = req.tokens;
 
     // save refresh token in DB
     try {
-      User.update( { token: refreshToken }, { where: { email }});
+      let userToUpdate = await getRepository(User).findOne({ email });
+      userToUpdate!.token = refreshToken as string;
+      await getRepository(User).save(userToUpdate!);
+
     } catch (err) {
       console.log(err);
       next(err);
@@ -71,7 +75,7 @@ const check = (req: Request, res: Response, next: NextFunction) => {
 
 const logout = (req: Request, res: Response, next: NextFunction) => {
   
-  jwt.verify(req.cookies[process.env.REFRESH_TOKEN_NAME!], process.env.REFRESH_TOKEN_SECRET!, (err: any, payload: any) => {
+  jwt.verify(req.cookies[process.env.REFRESH_TOKEN_NAME!], process.env.REFRESH_TOKEN_SECRET!, async (err: any, payload: any) => {
     let email = '';
     
     if(err) {
@@ -86,7 +90,10 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
 
     // destroy refresh token in DB
     try {
-      User.update( { token: null }, { where: { email }});
+      let userToUpdate = await getRepository(User).findOne({ email });
+      userToUpdate!.token = null;
+      await getRepository(User).save(userToUpdate!);
+
     } catch (err) {
       console.log(err);
       next(err);

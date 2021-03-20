@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import passport from 'passport';
 import passportJWT from 'passport-jwt';
-import { User } from '../models';
+import { getRepository } from 'typeorm';
+import User from '../entity/User';
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ export const jwtForAccess = () => {
         const { email } = jwtPayload;
 
         try {
-          const exUser = await User.findOne({ where: { email }});
+          const exUser = await getRepository(User).findOne({ email });
           
           if(exUser) {
             done(null, exUser);
@@ -55,7 +56,7 @@ export const jwtForRefresh = () => {
       const { email } = jwtPayload;
 
       try {
-        const exUser = await User.findOne({ where: { email }});
+        const exUser = await getRepository(User).findOne({ email });
         
         if(exUser) {
           done(null, exUser);
