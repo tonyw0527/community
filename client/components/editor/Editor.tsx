@@ -1,24 +1,26 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { prism, okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 
+import dynamic from 'next/dynamic';
+const CodeWithCodemirror = dynamic(() => import('./CodeMirror'), { ssr: false });
+
 function Editor() {
   const theme: Theme = useTheme();
-  const [markdown, setMarkdown] = useState('');
+  const [markdown, setMarkdown] = useState<string>('~~~ts\n');
 
-  const handleOnChange = (e: any) => {
-    setMarkdown(e.target.value);
+  const onSetMarkdown = (markdown: string) => {
+    setMarkdown(markdown);
   };
 
   return (
     <div css={container}>
-      <h3>Markdown Editor</h3>
       <div css={wrapper}>
-        <textarea css={input} value={markdown} onChange={handleOnChange} />
+        <CodeWithCodemirror css={input} markdown={markdown} onSetMarkdown={onSetMarkdown} />
         <ReactMarkdown
           css={output}
           renderers={{
@@ -33,13 +35,6 @@ function Editor() {
           children={markdown}
         />
       </div>
-      <button
-        onClick={() => {
-          alert(markdown);
-        }}
-      >
-        click
-      </button>
     </div>
   );
 }

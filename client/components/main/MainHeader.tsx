@@ -20,7 +20,6 @@ export default MainHeader;
 const Container = (theme: Theme) => css`
   width: 100vw;
   height: 3rem;
-  background: ${theme.color.primary};
 `;
 
 const RightSideBox = css`

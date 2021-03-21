@@ -27,11 +27,11 @@ export default class Snippet {
 
     @Column('timestampz')
     @CreateDateColumn()
-    created_at!: Date;
+    createdAt!: Date;
 
     @Column('timestamptz')
     @UpdateDateColumn()
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @ManyToOne(type => User, user => user.snippets)
     user!: User;

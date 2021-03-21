@@ -5,6 +5,10 @@ import PostList, { PostListProps } from './PostList';
 export default {
   component: PostList,
   title: 'PostList',
+  decorators: [(story) => <div style={{ width: '100vw' }}>{story()}</div>],
+  parameters: {
+    layout: 'fullscreen',
+  },
 } as Meta;
 
 const Template: Story<PostListProps> = (args) => <PostList {...args} />;
@@ -16,12 +20,18 @@ Default.args = {
       title: '화살표 함수',
       markdown: `~~~js
 const foo = () => ();`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       title: '변수 선언',
       markdown: `~~~js
 const foo = 1; // 선언 후 값 변경 불가
 let bar = 0; // 선언 후 값 변경 가능`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       title: 'if문',
@@ -31,6 +41,9 @@ if(true){
 } else {
   console.log('false here');
 }`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       title: 'else if 문',
@@ -52,6 +65,9 @@ if(num < 0){
 } else {
   console.log('0');
 }`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       title: 'map 함수',
@@ -59,6 +75,9 @@ if(num < 0){
 arr.map((item, index) => {
   return item + index;
 })`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
     {
       title: 'for 문',
@@ -67,6 +86,16 @@ arr.map((item, index) => {
 for(let i=0; i<10; i++){
   console.log(i);
 }`,
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
+    },
+    {
+      title: '함수',
+      markdown: '~~~js\nfunction() {\n  return true;\n}\n~~~',
+      user: 'tony',
+      slug: 'declare-function',
+      createdAt: new Date().toLocaleDateString(),
     },
   ],
 };
