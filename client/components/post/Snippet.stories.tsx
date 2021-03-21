@@ -11,9 +11,14 @@ const Template: Story<SnippetProps> = (args) => <Snippet {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  title: '화살표 함수',
-  markdown: `
-  ~~~js
-  const foo = () => ();
-  `,
+  title: '함수 선언',
+  markdown: `~~~ts
+// 일반적인 함수 선언
+function() {
+  return true;
+}
+~~~`,
+  user: 'tony',
+  slug: 'declare-function',
+  createdAt: new Date().toLocaleDateString(),
 };
