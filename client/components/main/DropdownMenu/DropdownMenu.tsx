@@ -53,6 +53,15 @@ export function DropdownMenu({ authResult, logoutDone, onLogout, onLoadMyInfo, o
             </UserBox>
           </Li>
           <Li>
+            <A
+              onClick={() => {
+                Router.push('/new');
+              }}
+            >
+              Post
+            </A>
+          </Li>
+          <Li>
             <Link href="/main">
               <A>Main</A>
             </Link>

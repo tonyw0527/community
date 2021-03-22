@@ -7,6 +7,7 @@ function MainHeader({ onToggleTheme }: any) {
   return (
     <header>
       <div css={Container}>
+        <span>Snippets.ga</span>
         <div css={RightSideBox}>
           <DropdownMenu onToggleTheme={onToggleTheme} />
         </div>

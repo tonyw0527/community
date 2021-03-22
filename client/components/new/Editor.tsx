@@ -1,26 +1,29 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { useState } from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { prism, okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
-
 import dynamic from 'next/dynamic';
 const CodeWithCodemirror = dynamic(() => import('./CodeMirror'), { ssr: false });
 
-function Editor() {
-  const theme: Theme = useTheme();
-  const [markdown, setMarkdown] = useState<string>('~~~ts\n');
+export interface EditorProps {
+  markdown: string;
+  onSetMarkdown: (markdown: string) => void;
+}
 
-  const onSetMarkdown = (markdown: string) => {
-    setMarkdown(markdown);
+function Editor({ markdown, onSetMarkdown }: EditorProps) {
+  const theme: Theme = useTheme();
+
+  const handleOnSetMarkdown = (markdown: string) => {
+    onSetMarkdown(markdown);
   };
 
   return (
-    <div css={container}>
-      <div css={wrapper}>
-        <CodeWithCodemirror css={input} markdown={markdown} onSetMarkdown={onSetMarkdown} />
+    <>
+      <div css={container}>
+        <CodeWithCodemirror css={input} markdown={markdown} onSetMarkdown={handleOnSetMarkdown} />
         <ReactMarkdown
           css={output}
           renderers={{
@@ -35,7 +38,7 @@ function Editor() {
           children={markdown}
         />
       </div>
-    </div>
+    </>
   );
 }
 
@@ -43,25 +46,26 @@ export default Editor;
 
 const container = css`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const wrapper = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 30rem;
 `;
 
 const input = css`
-  margin: 0.5rem;
   width: 20rem;
-  height: 50vh;
+  height: 100%;
+  font-size: 1.3rem;
+  border: 1px solid black;
+
+  .CodeMirror {
+    height: 100%;
+  }
 `;
 
 const output = css`
-  margin: 0.5rem;
   width: 20rem;
-  height: 50vh;
+  height: 100%;
+  padding: 0 1rem;
+  border: 1px solid black;
+  overflow: auto;
 `;
