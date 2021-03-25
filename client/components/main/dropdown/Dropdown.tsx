@@ -12,7 +12,7 @@ import { useRootState, useAppDispatch } from '../../../store/store';
 import * as AuthActions from '../../../store/slices/auth';
 import { Popup } from '../../common';
 
-export interface DropdownMenuProps {
+export interface DropdownProps {
   authResult: any;
   logoutDone: boolean;
   onLogout: () => void;
@@ -20,7 +20,7 @@ export interface DropdownMenuProps {
   onToggleTheme: () => void;
 }
 
-export function DropdownMenu({ authResult, logoutDone, onLogout, onLoadMyInfo, onToggleTheme }: DropdownMenuProps) {
+export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onToggleTheme }: DropdownProps) {
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const theme = useTheme();
@@ -109,7 +109,7 @@ export default function connect({ onToggleTheme }: any) {
   };
 
   return (
-    <DropdownMenu
+    <Dropdown
       authResult={authResult}
       logoutDone={logoutDone}
       onLogout={onLogout}

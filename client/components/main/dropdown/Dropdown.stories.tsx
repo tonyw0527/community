@@ -1,14 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { DropdownMenu, DropdownMenuProps } from './DropdownMenu';
+import { Dropdown, DropdownProps } from './Dropdown';
 
 export default {
-  component: DropdownMenu,
-  title: 'DropdownMenu',
+  component: Dropdown,
+  title: 'Dropdown',
   decorators: [(story) => <div style={{ position: 'fixed', top: '1rem', right: '1rem' }}>{story()}</div>],
 } as Meta;
 
-const Template: Story<DropdownMenuProps> = (args) => <DropdownMenu {...args} />;
+const Template: Story<DropdownProps> = (args) => <Dropdown {...args} />;
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {

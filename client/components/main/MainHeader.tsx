@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import DropdownMenu from './DropdownMenu/DropdownMenu';
+import Dropdown from './dropdown/Dropdown';
 import { jsx, css, Theme } from '@emotion/react';
 
 function MainHeader({ onToggleTheme }: any) {
@@ -9,7 +9,7 @@ function MainHeader({ onToggleTheme }: any) {
       <div css={Container}>
         <span>Snippets.ga</span>
         <div css={RightSideBox}>
-          <DropdownMenu onToggleTheme={onToggleTheme} />
+          <Dropdown onToggleTheme={onToggleTheme} />
         </div>
       </div>
     </header>
