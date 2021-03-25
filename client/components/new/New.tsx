@@ -1,38 +1,88 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 import Editor from './Editor';
-import { Button } from '../common';
+import { Button, Popup } from '../common';
 import { useRootState, useAppDispatch } from '../../store/store';
-import { setMarkdown } from '../../store/slices/editor';
+import { setTitle, setMarkdown, requestNewPost } from '../../store/slices/post';
+import { AuthResult } from '../../store/slices/auth';
+import { Post } from '../../lib/api/post';
 
-interface NewProps {
-  markdown: string;
-  onSetMarkdown: (markdown: string) => void;
+interface PostWithToken extends Post {
+  token: string;
 }
 
-function New({ markdown, onSetMarkdown }: NewProps) {
+interface NewProps {
+  authResult: AuthResult;
+  title: string;
+  markdown: string;
+  onSetTitle: (title: string) => void;
+  onSetMarkdown: (markdown: string) => void;
+  onRequestNewPost: ({ token, title, markdown, writer }: PostWithToken) => void;
+  requestNewPostDone: boolean;
+}
+
+function New({ authResult, title, markdown, onSetTitle, onSetMarkdown, onRequestNewPost, requestNewPostDone }: NewProps) {
+  useEffect(() => {
+    if (requestNewPostDone) {
+      Popup.success('작성 완료');
+      Router.push('/main');
+    }
+  }, [requestNewPostDone]);
+
   return (
     <div css={container}>
+      <input type="text" value={title} onChange={(e) => onSetTitle(e.target.value)} placeholder="Title" />
       <Editor markdown={markdown} onSetMarkdown={onSetMarkdown} />
       <div css={btnBox}>
-        <Button>Cancel</Button>
-        <Button>Post</Button>
+        <Button onClick={() => Router.push('/main')}>Cancel</Button>
+        <Button
+          onClick={() =>
+            onRequestNewPost({
+              token: authResult.token,
+              title,
+              markdown,
+              writer: authResult.me.nickname,
+            })
+          }
+        >
+          Post
+        </Button>
       </div>
     </div>
   );
 }
 
 export default function connect() {
-  const { markdown } = useRootState((state) => state.editor);
+  const { authResult } = useRootState((state) => state.auth);
+  const { title, markdown, requestNewPostDone } = useRootState((state) => state.post);
   const dispatch = useAppDispatch();
+
+  const onSetTitle = (title: string) => {
+    dispatch(setTitle(title));
+  };
 
   const onSetMarkdown = (markdown: string) => {
     dispatch(setMarkdown(markdown));
   };
 
-  return <New markdown={markdown} onSetMarkdown={onSetMarkdown} />;
+  const onRequestNewPost = ({ token, title, markdown, writer }: PostWithToken) => {
+    dispatch(requestNewPost({ token, title, markdown, writer }));
+  };
+
+  return (
+    <New
+      title={title}
+      markdown={markdown}
+      authResult={authResult}
+      onSetMarkdown={onSetMarkdown}
+      onSetTitle={onSetTitle}
+      onRequestNewPost={onRequestNewPost}
+      requestNewPostDone={requestNewPostDone}
+    />
+  );
 }
 
 const container = css`

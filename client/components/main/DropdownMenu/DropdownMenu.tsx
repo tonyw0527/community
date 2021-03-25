@@ -172,6 +172,7 @@ const Nav = styled.nav<{ isActive: boolean }>`
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
   text-align: center;
   ${({ isActive }) => isActive && menuActive};
+  z-index: 1000;
 `;
 
 const Ul = styled.ul`

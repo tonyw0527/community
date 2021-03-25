@@ -5,7 +5,7 @@ import Snippet from './Snippet';
 export default class User {
 
     @PrimaryGeneratedColumn('uuid')
-    id!: number;
+    id!: string;
 
     @Column({ unique: true })
     email!: string;

@@ -18,7 +18,7 @@ function() {
   return true;
 }
 ~~~`,
-  user: 'tony',
+  writer: 'tony',
   slug: 'declare-function',
   createdAt: new Date().toLocaleDateString(),
 };

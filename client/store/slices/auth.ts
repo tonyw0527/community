@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as AuthAPI from '../../lib/api/auth';
 
-interface AuthResult {
+export interface AuthResult {
   me: {
     id: string,
     email: string,

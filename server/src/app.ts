@@ -9,11 +9,8 @@ import APIRoutes from './routes/api';
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 
-
 import { getRepository } from 'typeorm';
-import User from './entity/User';
 import Snippet from './entity/Snippet';
-
 
 dotenv.config();
 
@@ -45,32 +42,9 @@ createConnection().then(async connection => {
   // set up routes
   app.use('/api', APIRoutes);
 
-
-
-
-
-  // test
-  app.get('/post', async (req, res) => {
-    const tony = await getRepository(User).findOne({ email: '1@2.com' });
-
-    const post = new Snippet();
-    post.title = 'test my post';
-    post.markdown = `~~~js
-function() {
-  return true;
-}
-~~~`;
-    post.user = tony!;
-
-    await getRepository(Snippet).save(post);
-
-    res.status(200).send('done');
-  })
-
-  app.get('/load', async (req, res) => {
-    const userPosts = await getRepository(User).findOne({ email: '1@2.com' }, { relations: ['snippets'] });
-
-    res.status(200).send(userPosts);
+  app.use('/test', async (req, res) => {
+    const userPosts = await getRepository(Snippet).find();
+    res.status(200).json(userPosts)
   })
 
   // handling 404

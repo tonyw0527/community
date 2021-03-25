@@ -3,6 +3,7 @@ import express from 'express';
 // routes
 import auth from './auth';
 import user from './user';
+import post from './post';
 
 // middlewares
 import { authenticateAceessToken } from '../../middlewares/jwtAuth';
@@ -13,5 +14,7 @@ router.use('/auth', auth);
 
 router.use('/user', authenticateAceessToken); // authMiddleware가 있어서 /test 접근시 토근검증 후 통과
 router.use('/user', user);
+
+router.use('/post', post);
 
 export default router;

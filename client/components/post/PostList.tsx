@@ -15,7 +15,7 @@ function PostList({ data }: PostListProps) {
           key={'snp' + index}
           title={item.title}
           markdown={item.markdown}
-          user={item.user}
+          writer={item.writer}
           slug={item.slug}
           createdAt={item.createdAt}
         />

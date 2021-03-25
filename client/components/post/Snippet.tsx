@@ -8,12 +8,12 @@ import { jsx, css, useTheme, Theme } from '@emotion/react';
 export interface SnippetProps {
   title: string;
   markdown: string;
-  user: string;
+  writer: string;
   slug: string;
   createdAt: string;
 }
 
-function Snippet({ title, markdown, user, slug, createdAt }: SnippetProps) {
+function Snippet({ title, markdown, writer, slug, createdAt }: SnippetProps) {
   const theme: Theme = useTheme();
 
   const copyCodeToClipboard = () => {
@@ -48,7 +48,7 @@ function Snippet({ title, markdown, user, slug, createdAt }: SnippetProps) {
         />
       </div>
       <div css={bottom}>
-        Posted on {createdAt} By {user}
+        Posted on {createdAt} By {writer}
       </div>
     </div>
   );

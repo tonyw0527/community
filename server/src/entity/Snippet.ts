@@ -1,6 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import User from './User';
-import slugify from 'slugify';
 import marked from 'marked';
 import createDomPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
@@ -10,8 +9,8 @@ const dompurify = createDomPurify(new JSDOM().window);
 @Entity()
 export default class Snippet {
 
-    @PrimaryGeneratedColumn('uuid')
-    id!: number;
+    @PrimaryGeneratedColumn()
+    id!: string;
 
     @Column()
     title!: string;
@@ -19,8 +18,8 @@ export default class Snippet {
     @Column()
     markdown!: string;
 
-    @Column({ unique: true })
-    slug!: string;
+    @Column()
+    writer!: string;
 
     @Column()
     sanitizedHtml!: string;
@@ -38,22 +37,13 @@ export default class Snippet {
 
     @BeforeInsert()
     handleBeforeInsert() {
-      if (this.title) {
-        this.slug = slugify(this.title, { lower: true, strict: true });
-      }
-      
       if (this.markdown) {
         this.sanitizedHtml = dompurify.sanitize(marked(this.markdown));
       }
     }
     
-
     @BeforeUpdate()
     handleBeforeUpdate() {
-      if (this.title) {
-        this.slug = slugify(this.title, { lower: true, strict: true });
-      }
-      
       if (this.markdown) {
         this.sanitizedHtml = dompurify.sanitize(marked(this.markdown));
       }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Router from 'next/router';
 import { wrapper, useRootState, useAppDispatch } from '../store/store';
 import * as AuthActions from '../store/slices/auth';
+import * as PostActions from '../store/slices/post';
 import defaultClient from '../lib/defaultClient';
 import MainComponent from '../components/main';
 import { Popup } from '../components/common';
@@ -37,6 +38,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   }
 
   await context.store.dispatch(AuthActions.loadMyInfo());
+  await context.store.dispatch(PostActions.loadAllPosts());
 
   return {
     props: {},

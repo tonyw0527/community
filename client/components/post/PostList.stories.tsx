@@ -20,7 +20,7 @@ Default.args = {
       title: '화살표 함수',
       markdown: `~~~js
 const foo = () => ();`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
@@ -29,7 +29,7 @@ const foo = () => ();`,
       markdown: `~~~js
 const foo = 1; // 선언 후 값 변경 불가
 let bar = 0; // 선언 후 값 변경 가능`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
@@ -41,7 +41,7 @@ if(true){
 } else {
   console.log('false here');
 }`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
@@ -65,7 +65,7 @@ if(num < 0){
 } else {
   console.log('0');
 }`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
@@ -75,7 +75,7 @@ if(num < 0){
 arr.map((item, index) => {
   return item + index;
 })`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
@@ -86,14 +86,14 @@ arr.map((item, index) => {
 for(let i=0; i<10; i++){
   console.log(i);
 }`,
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
     {
       title: '함수',
       markdown: '~~~js\nfunction() {\n  return true;\n}\n~~~',
-      user: 'tony',
+      writer: 'tony',
       slug: 'declare-function',
       createdAt: new Date().toLocaleDateString(),
     },
