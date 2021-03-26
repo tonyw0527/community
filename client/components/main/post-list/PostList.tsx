@@ -38,9 +38,13 @@ const $container = css`
 `;
 
 const $snippets = css`
-  --auto-grid-min-size: 20rem;
+  --auto-grid-min-size: 25rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
   grid-gap: 1rem;
   width: 100%;
+
+  @media screen and (max-width: 769px) {
+    --auto-grid-min-size: 20rem;
+  }
 `;

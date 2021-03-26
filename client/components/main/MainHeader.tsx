@@ -22,7 +22,11 @@ const $header = css`
   position: relative;
   width: 100vw;
   height: 3rem;
-  padding: 1rem;
+  padding: 1rem 6rem;
+
+  @media screen and (max-width: 769px) {
+    padding: 1rem;
+  }
 `;
 
 const $title = css`
@@ -35,5 +39,9 @@ const $title = css`
 const RightSideBox = css`
   position: absolute;
   top: 1.2rem;
-  right: 1rem;
+  right: 6rem;
+
+  @media screen and (max-width: 769px) {
+    right: 1rem;
+  }
 `;
