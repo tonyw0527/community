@@ -27,10 +27,14 @@ function PostList({ data }: PostListProps) {
 export default PostList;
 
 const container = css`
-  --auto-grid-min-size: 24rem;
+  --auto-grid-min-size: 20rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
   grid-gap: 1rem;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 4rem;
+
+  @media screen and (max-width: 769px) {
+    padding: 1rem;
+  }
 `;

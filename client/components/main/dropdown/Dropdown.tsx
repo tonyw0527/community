@@ -1,9 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { useEffect, forwardRef } from 'react';
+import { useEffect, useRef, forwardRef } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
-import { useRef } from 'react';
 import { useDetectOutsideClick } from '../../../lib/useDetectOutsideClick';
 import DarkModeToggleButton from '../DarkModeToggleButton';
 import styled from '@emotion/styled';

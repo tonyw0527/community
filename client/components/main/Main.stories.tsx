@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import Main from './Main';
+import { Main } from './Main';
 import { Provider } from 'react-redux';
 import { action } from '@storybook/addon-actions';
 import * as PostListStories from '../post/PostList.stories';

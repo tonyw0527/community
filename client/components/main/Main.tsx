@@ -3,7 +3,7 @@ import PostList from '../post/PostList';
 import styled from '@emotion/styled';
 import { useRootState } from '../../store/store';
 
-function Main({ data, onToggleTheme }: any) {
+export function Main({ data, onToggleTheme }: any) {
   return (
     <Container>
       <MainHeader onToggleTheme={onToggleTheme} />

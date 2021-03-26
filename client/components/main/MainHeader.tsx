@@ -1,16 +1,16 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import Dropdown from './dropdown/Dropdown';
 import { jsx, css, Theme } from '@emotion/react';
+import Dropdown from './dropdown/Dropdown';
+import Sidebar from './sidebar/Sidebar';
 
 function MainHeader({ onToggleTheme }: any) {
   return (
-    <header>
-      <div css={Container}>
-        <span>Snippets.ga</span>
-        <div css={RightSideBox}>
-          <Dropdown onToggleTheme={onToggleTheme} />
-        </div>
+    <header css={$header}>
+      <Sidebar />
+      <span css={$title}>{'$nippet Library'}</span>
+      <div css={RightSideBox}>
+        <Dropdown onToggleTheme={onToggleTheme} />
       </div>
     </header>
   );
@@ -18,13 +18,22 @@ function MainHeader({ onToggleTheme }: any) {
 
 export default MainHeader;
 
-const Container = (theme: Theme) => css`
+const $header = css`
+  position: relative;
   width: 100vw;
   height: 3rem;
+  padding: 1rem;
+`;
+
+const $title = css`
+  display: inline-block;
+  margin-left: 2rem;
+  font-size: 1.7rem;
+  font-weight: 700;
 `;
 
 const RightSideBox = css`
   position: absolute;
-  top: 0.7rem;
+  top: 1.2rem;
   right: 1rem;
 `;
