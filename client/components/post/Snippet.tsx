@@ -26,10 +26,21 @@ function Snippet({ title, markdown, writer, slug, createdAt }: SnippetProps) {
     document.body.removeChild(t);
   };
 
+  const renderLang = () => {
+    const part = markdown.match(/~~~[a-zA-Z]*\n/);
+    console.log(part);
+    if (part) {
+      const lang = part[0].match(/[a-zA-Z]*\n/);
+      console.log(lang);
+      if (lang) return lang[0];
+    }
+  };
+
   return (
     <div css={container}>
       <h3 css={h3}>{title}</h3>
       <div css={main}>
+        <span css={$lang}>{renderLang()}</span>
         <button css={clipBtn} onClick={() => copyCodeToClipboard()}>
           copy
         </button>
@@ -81,6 +92,15 @@ const main = css`
   width: 100%;
   overflow: auto;
   margin-bottom: 0.3rem;
+`;
+
+const $lang = (theme: Theme) => css`
+  position: absolute;
+  top: 0.2rem;
+  left: 0.5rem;
+  border: none;
+  background: none;
+  color: ${theme.color.secondaryVariant};
 `;
 
 const clipBtn = css`
