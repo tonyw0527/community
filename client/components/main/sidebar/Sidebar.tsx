@@ -85,7 +85,7 @@ const $sidebar = (theme: Theme) => css`
     top: 50px;
     left: -250px;
     width: 250px;
-    height: 50%;
+    height: 100%;
     background: ${theme.mode === 'light' ? '#FFFFFF' : '#21262D'};
     z-index: 30;
     transition: 0.35s;

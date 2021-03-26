@@ -48,7 +48,7 @@ function Snippet({ title, markdown, writer, slug, createdAt }: SnippetProps) {
         />
       </div>
       <div css={bottom}>
-        Posted on {createdAt} By {writer}
+        Posted on {new Date(createdAt).toLocaleDateString()} By <span css={$writer}>{writer}</span>
       </div>
     </div>
   );
@@ -60,7 +60,6 @@ export default Snippet;
 const container = (theme: Theme) => css`
   display: flex;
   flex-direction: column;
-
   height: 20rem;
 
   background: ${theme.mode === 'light' ? '#f5f2f0' : '#272822'};
@@ -87,7 +86,7 @@ const main = css`
 const clipBtn = css`
   position: absolute;
   top: 0.2rem;
-  right: 0.2rem;
+  right: 0.5rem;
   border: none;
   background: none;
   color: pink;
@@ -99,10 +98,18 @@ const clipBtn = css`
 
 const output = css`
   width: 100%;
+  padding-right: 1rem;
 `;
 
 const bottom = (theme: Theme) => css`
   padding: 0.7rem;
   border-top: 1px solid ${theme.mode === 'light' ? '#DDDDDD' : 'rgba(0, 0, 0, 0.3)'};
-  color: ${theme.color.secondary};
+  color: ${theme.color.onBackgroundLow};
+  font-size: 0.8rem;
+`;
+
+const $writer = (theme: Theme) => css`
+  color: ${theme.color.onBackground};
+  font-weight: 700;
+  font-size: 0.9rem;
 `;
