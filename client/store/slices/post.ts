@@ -19,9 +19,17 @@ interface Post {
   loadAllPostsDone: boolean;
   loadAllPostsError: string | null;
 
+  loadMyPostsLoading: boolean;
+  loadMyPostsDone: boolean;
+  loadMyPostsError: string | null;
+
   requestNewPostLoading: boolean;
   requestNewPostDone: boolean;
   requestNewPostError: string | null;
+
+  requestDeletePostLoading: boolean;
+  requestDeletePostDone: boolean;
+  requestDeletePostError: string | null;
 }
 
 const initialState: Post = {
@@ -34,9 +42,17 @@ const initialState: Post = {
   loadAllPostsDone: false,
   loadAllPostsError: null,
 
+  loadMyPostsLoading: false,
+  loadMyPostsDone: false,
+  loadMyPostsError: null,
+
   requestNewPostLoading: false,
   requestNewPostDone: false,
   requestNewPostError: null,
+
+  requestDeletePostLoading: false,
+  requestDeletePostDone: false,
+  requestDeletePostError: null,
 }
 
 export const loadAllPosts = createAsyncThunk(
@@ -44,6 +60,18 @@ export const loadAllPosts = createAsyncThunk(
   async (token: string | undefined, thunkAPI) => {
     try {
       const response = await PostAPI.loadAllPosts(token);
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
+export const loadMyPosts = createAsyncThunk(
+  'post/loadMyPosts',
+  async (token: string, thunkAPI) => {
+    try {
+      const response = await PostAPI.loadMyPosts(token);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -60,6 +88,18 @@ export const requestNewPost = createAsyncThunk(
   async ({ token, title, markdown, writer }: PostWithToken, thunkAPI) => {
     try {
       const response = await PostAPI.requestNewPost(token, { title, markdown, writer });
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
+export const requestDeletePost = createAsyncThunk(
+  'post/requestDeletePost',
+  async ({ token, id }: any, thunkAPI) => {
+    try {
+      const response = await PostAPI.requestDeletePost(token, id);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -94,6 +134,21 @@ export const postSlice = createSlice({
       state.loadAllPostsLoading = false;
       state.loadAllPostsError = action.payload;
     },
+     // loadMyPosts
+     [loadMyPosts.pending.type]: (state) => {
+      state.loadMyPostsLoading = true;
+      state.loadMyPostsDone = false;
+      state.loadMyPostsError = null;
+    },
+    [loadMyPosts.fulfilled.type]: (state, action: PayloadAction<Array<Snippet>>) => {
+      state.posts = action.payload;
+      state.loadMyPostsLoading = false;
+      state.loadMyPostsDone = true;
+    },
+    [loadMyPosts.rejected.type]: (state, action: PayloadAction<string|null>) => {
+      state.loadMyPostsLoading = false;
+      state.loadMyPostsError = action.payload;
+    },
     // requestNewPost
     [requestNewPost.pending.type]: (state) => {
       state.requestNewPostLoading = true;
@@ -107,6 +162,20 @@ export const postSlice = createSlice({
     [requestNewPost.rejected.type]: (state, action: PayloadAction<string|null>) => {
       state.requestNewPostLoading = false;
       state.requestNewPostError = action.payload;
+    },
+    // requesDeletePost
+    [requestDeletePost.pending.type]: (state) => {
+      state.requestDeletePostLoading = true;
+      state.requestDeletePostDone = false;
+      state.requestDeletePostError = null;
+    },
+    [requestDeletePost.fulfilled.type]: (state) => {
+      state.requestDeletePostLoading = false;
+      state.requestDeletePostDone = true;
+    },
+    [requestDeletePost.rejected.type]: (state, action: PayloadAction<string|null>) => {
+      state.requestDeletePostLoading = false;
+      state.requestDeletePostError = action.payload;
     },
   }
 })

@@ -1,5 +1,5 @@
 import MainHeader from './MainHeader';
-import PostList from '../post/PostList';
+import PostList from './post-list/PostList';
 import styled from '@emotion/styled';
 import { useRootState } from '../../store/store';
 

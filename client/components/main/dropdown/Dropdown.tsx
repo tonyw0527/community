@@ -61,8 +61,8 @@ export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onTog
             </A>
           </Li>
           <Li>
-            <Link href="/main">
-              <A>Main</A>
+            <Link href="/manage">
+              <A>Manage</A>
             </Link>
           </Li>
           <Li>

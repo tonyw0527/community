@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 const store: any = {
   getState: () => {
     return {
-      editor: {
+      post: {
         markdown: '~~~ts',
       },
     };
