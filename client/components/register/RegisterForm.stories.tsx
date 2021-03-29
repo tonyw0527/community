@@ -4,7 +4,7 @@ import { RegisterForm, RegisterFormProps } from './RegisterForm';
 
 export default {
   component: RegisterForm,
-  title: 'RegisterForm',
+  title: 'Page/Register',
   parameters: {
     layout: 'fullscreen',
   },

@@ -34,6 +34,7 @@
     "@babel/core": "^7.13.10",
     "@emotion/babel-plugin": "^11.2.0",
     "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-console": "^1.2.3",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",
     "@storybook/addons": "^6.1.21",

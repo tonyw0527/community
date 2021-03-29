@@ -18,7 +18,7 @@ const store: any = {
 
 export default {
   component: Editor,
-  title: 'Editor',
+  title: 'Page/New/Editor',
   decorators: [(story) => <Provider store={store}>{story()}</Provider>],
 } as Meta;
 

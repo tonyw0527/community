@@ -4,8 +4,9 @@ module.exports = {
     '../components/**/*.stories.tsx'
   ],
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    'storybook-dark-mode/register'
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    // '@storybook/addon-console',
+    'storybook-dark-mode/register',
   ]
 }

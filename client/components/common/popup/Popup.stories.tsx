@@ -4,7 +4,7 @@ import { GlobalPopup, GlobalPopupProps } from './Popup';
 
 export default {
   component: GlobalPopup,
-  title: 'GlobalPopup',
+  title: 'Common/Popup',
   parameters: {
     docs: {
       inlineStories: false,

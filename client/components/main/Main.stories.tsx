@@ -29,7 +29,7 @@ const store: any = {
 
 export default {
   component: Main,
-  title: 'Main',
+  title: 'Page/Main/index',
   decorators: [(story) => <Provider store={store}>{story()}</Provider>],
   parameters: {
     layout: 'fullscreen',

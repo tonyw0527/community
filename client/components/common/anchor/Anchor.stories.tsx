@@ -4,12 +4,12 @@ import Anchor, { AnchorProps } from './Anchor';
 
 export default {
   component: Anchor,
-  title: 'Anchor',
+  title: 'Common/Anchor',
 } as Meta;
 
 const Template: Story<AnchorProps> = (args) => <Anchor {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  children: 'Default',
+  children: 'www.storybook.com',
 };

@@ -4,7 +4,7 @@ import Copyright from './Copyright';
 
 export default {
   component: Copyright,
-  title: 'Copyright',
+  title: 'Common/Copyright',
 } as Meta;
 
 const Template: Story = (args) => <Copyright {...args} />;

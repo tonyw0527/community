@@ -4,7 +4,7 @@ import Snippet, { SnippetProps } from './Snippet';
 
 export default {
   component: Snippet,
-  title: 'Snippet',
+  title: 'Page/Main/Snippet',
 } as Meta;
 
 const Template: Story<SnippetProps> = (args) => <Snippet {...args} />;

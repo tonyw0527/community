@@ -1,13 +1,13 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import Input, { InputProps } from './Input';
+import New from './New';
 
 export default {
-  component: Input,
-  title: 'Common/Input',
+  component: New,
+  title: 'Page/New/index',
 } as Meta;
 
-const Template: Story<InputProps> = (args) => <Input {...args} />;
+const Template: Story = (args) => <New {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

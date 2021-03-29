@@ -4,7 +4,7 @@ import Landing from './Landing';
 
 export default {
   component: Landing,
-  title: 'Landing',
+  title: 'Page/Landing',
   parameters: {
     layout: 'fullscreen',
   },

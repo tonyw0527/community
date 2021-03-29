@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 
 export default {
   component: Sidebar,
-  title: 'Sidebar',
+  title: 'Page/Main/Sidebar',
   parameters: {
     layout: 'fullscreen',
   },

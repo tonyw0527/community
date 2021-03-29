@@ -4,7 +4,7 @@ import { AuthForm, AuthFormProps } from './AuthForm';
 
 export default {
   component: AuthForm,
-  title: 'AuthForm',
+  title: 'Page/Login',
   decorators: [(story) => <div style={{ width: '100%' }}>{story()}</div>],
   parameters: {
     layout: 'fullscreen',
