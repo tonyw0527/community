@@ -5,7 +5,7 @@ import * as AuthActions from '../store/slices/auth';
 import * as PostActions from '../store/slices/post';
 import defaultClient from '../lib/defaultClient';
 import MainComponent from '../components/main';
-import { Popup } from '../components/common';
+import { Popup, Layout } from '../components/common';
 
 const Main = ({ onToggleTheme }: any) => {
   const { authResult, logoutDone, loadMyInfoError } = useRootState((state) => state.auth);
@@ -25,7 +25,11 @@ const Main = ({ onToggleTheme }: any) => {
     }
   }, [loadMyInfoError]);
 
-  return <MainComponent onToggleTheme={onToggleTheme} />;
+  return (
+    <Layout onToggleTheme={onToggleTheme}>
+      <MainComponent />
+    </Layout>
+  );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {

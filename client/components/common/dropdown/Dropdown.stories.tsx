@@ -4,7 +4,7 @@ import { Dropdown, DropdownProps } from './Dropdown';
 
 export default {
   component: Dropdown,
-  title: 'Page/Main/Dropdown',
+  title: 'Common/Dropdown',
   decorators: [(story) => <div style={{ position: 'fixed', top: '1rem', right: '1rem' }}>{story()}</div>],
 } as Meta;
 

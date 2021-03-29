@@ -3,10 +3,10 @@ import Router from 'next/router';
 import { wrapper, useRootState, useAppDispatch } from '../store/store';
 import * as AuthActions from '../store/slices/auth';
 import defaultClient from '../lib/defaultClient';
-import { Popup } from '../components/common';
+import { Popup, Layout } from '../components/common';
 import NewComponent from '../components/new';
 
-const New = () => {
+const New = ({ onToggleTheme }: any) => {
   const { authResult, logoutDone, loadMyInfoError } = useRootState((state) => state.auth);
   const dispatch = useAppDispatch();
 
@@ -24,7 +24,11 @@ const New = () => {
     }
   }, [loadMyInfoError]);
 
-  return <NewComponent />;
+  return (
+    <Layout onToggleTheme={onToggleTheme}>
+      <NewComponent />
+    </Layout>
+  );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {

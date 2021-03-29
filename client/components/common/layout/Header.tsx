@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css, Theme } from '@emotion/react';
-import Dropdown from './dropdown/Dropdown';
-import Sidebar from './sidebar/Sidebar';
+import Dropdown from '../dropdown/Dropdown';
+import Sidebar from '../sidebar/Sidebar';
 
-function MainHeader({ onToggleTheme }: any) {
+function Header({ onToggleTheme }: any) {
   return (
     <header css={$header}>
       <Sidebar />
@@ -16,7 +16,7 @@ function MainHeader({ onToggleTheme }: any) {
   );
 }
 
-export default MainHeader;
+export default Header;
 
 const $header = css`
   position: relative;

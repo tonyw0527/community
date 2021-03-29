@@ -1,25 +1,12 @@
-import MainHeader from './MainHeader';
 import PostList from './post-list/PostList';
-import styled from '@emotion/styled';
 import { useRootState } from '../../store/store';
 
-export function Main({ data, onToggleTheme }: any) {
-  return (
-    <Container>
-      <MainHeader onToggleTheme={onToggleTheme} />
-      {data ? <PostList data={data} /> : <div>no data</div>}
-    </Container>
-  );
+export function Main({ data }: any) {
+  return <>{data ? <PostList data={data} /> : <div>no data</div>}</>;
 }
 
-export default function connect({ onToggleTheme }: any) {
+export default function connect() {
   const { posts } = useRootState((state) => state.post);
 
-  return <Main data={posts} onToggleTheme={onToggleTheme} />;
+  return <Main data={posts} />;
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-`;

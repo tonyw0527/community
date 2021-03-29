@@ -4,12 +4,12 @@ import { useEffect, useRef, forwardRef } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useDetectOutsideClick } from '../../../lib/useDetectOutsideClick';
-import DarkModeToggleButton from '../DarkModeToggleButton';
+import DarkModeToggleButton from '../darkmode-toggle-button/DarkModeToggleButton';
 import styled from '@emotion/styled';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 import { useRootState, useAppDispatch } from '../../../store/store';
 import * as AuthActions from '../../../store/slices/auth';
-import { Popup } from '../../common';
+import { Popup } from '..';
 
 export interface DropdownProps {
   authResult: any;

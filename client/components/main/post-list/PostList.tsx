@@ -1,5 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import React from 'react';
 import { jsx, css } from '@emotion/react';
 import Snippet, { SnippetProps } from './Snippet';
 
@@ -9,7 +10,7 @@ export interface PostListProps {
 
 function PostList({ data }: PostListProps) {
   return (
-    <div css={$container}>
+    <>
       <h1>{'The latest snippets'}</h1>
       <div css={$snippets}>
         {data.map((item, index) => (
@@ -23,19 +24,11 @@ function PostList({ data }: PostListProps) {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
 export default PostList;
-
-const $container = css`
-  padding: 1rem 6rem;
-
-  @media screen and (max-width: 769px) {
-    padding: 1rem;
-  }
-`;
 
 const $snippets = css`
   --auto-grid-min-size: 25rem;

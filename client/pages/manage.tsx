@@ -4,10 +4,10 @@ import { wrapper, useRootState, useAppDispatch } from '../store/store';
 import * as AuthActions from '../store/slices/auth';
 import * as PostActions from '../store/slices/post';
 import defaultClient from '../lib/defaultClient';
-import { Popup } from '../components/common';
+import { Popup, Layout } from '../components/common';
 import ManageComponent from '../components/manage/Manage';
 
-const Manage = () => {
+const Manage = ({ onToggleTheme }: any) => {
   const { authResult, logoutDone, loadMyInfoError } = useRootState((state) => state.auth);
   const dispatch = useAppDispatch();
 
@@ -25,7 +25,11 @@ const Manage = () => {
     }
   }, [loadMyInfoError]);
 
-  return <ManageComponent />;
+  return (
+    <Layout onToggleTheme={onToggleTheme}>
+      <ManageComponent />
+    </Layout>
+  );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
