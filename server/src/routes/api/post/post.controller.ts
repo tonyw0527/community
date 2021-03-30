@@ -5,11 +5,15 @@ import Snippet from '../../../entity/Snippet';
 
 export const loadAllposts = async (req: Request, res: Response) => {
   const allPosts = await getRepository(Snippet).find();
-  console.log(allPosts);
   res.status(200).json(allPosts);
 }
 
-export const loadMyPost = async (req: any, res: Response) => {
+export const loadOnePost = async (req: any, res: Response) => {
+  const onePost = await getRepository(Snippet).findOne(req.params.id);
+  res.status(200).json(onePost);
+}
+
+export const loadMyPosts = async (req: any, res: Response) => {
   const userPosts = await getRepository(User).findOne({ email: req.user.me.email }, { relations: ['snippets'] });
   res.status(200).json(userPosts?.snippets);
 }

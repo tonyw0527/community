@@ -8,7 +8,7 @@ export interface ButtonProps {
 
 function Button(props: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button css={style} {...props} onClick={() => console.log('hi')}>
+    <button css={style} {...props}>
       {props.children}
     </button>
   );

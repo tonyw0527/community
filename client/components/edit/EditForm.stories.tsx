@@ -1,12 +1,13 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import Editor, { EditorProps } from './Editor';
+import EditForm from './EditForm';
 import { Provider } from 'react-redux';
 import { action } from '@storybook/addon-actions';
 
 const store: any = {
   getState: () => {
     return {
+      auth: {},
       post: {
         markdown: '~~~ts',
       },
@@ -17,12 +18,12 @@ const store: any = {
 };
 
 export default {
-  component: Editor,
-  title: 'Page/New/Editor',
+  component: EditForm,
+  title: 'Page/edit/index',
   decorators: [(story) => <Provider store={store}>{story()}</Provider>],
 } as Meta;
 
-const Template: Story<EditorProps> = (args) => <Editor {...args} />;
+const Template: Story = (args) => <EditForm {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

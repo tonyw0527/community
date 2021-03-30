@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Router from 'next/router';
+import Link from 'next/link';
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as PostActions from '../../store/slices/post';
 
@@ -11,9 +12,15 @@ function Manage({ data, authResult, requestDeletePostDone, onRequestDeletePost }
   }, [requestDeletePostDone]);
 
   const renderMyPosts = () => {
+    if (!data) {
+      return <div>no data</div>;
+    }
+
     const lists = data.map((item: any, index: any) => (
       <li key={'mypost' + index}>
-        <span>{item.title}</span>
+        <Link href={`/post/[post]`} as={`/post/${item.id}`}>
+          <a>{item.title}</a>
+        </Link>
         <button
           id={item.id}
           onClick={(e) => {

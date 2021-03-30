@@ -2,14 +2,16 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as PostAPI from '../../lib/api/post';
 
 interface Snippet {
+  id: number;
   title: string;
   markdown: string;
   writer: string;
-  slug: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 interface Post {
+  post: Snippet | null;
   posts: Array<Snippet>;
 
   title: string;
@@ -18,6 +20,10 @@ interface Post {
   loadAllPostsLoading: boolean;
   loadAllPostsDone: boolean;
   loadAllPostsError: string | null;
+
+  loadOnePostLoading: boolean;
+  loadOnePostDone: boolean;
+  loadOnePostError: string | null;
 
   loadMyPostsLoading: boolean;
   loadMyPostsDone: boolean;
@@ -33,6 +39,8 @@ interface Post {
 }
 
 const initialState: Post = {
+  post: null,
+
   posts: [],
 
   title: '',
@@ -41,6 +49,10 @@ const initialState: Post = {
   loadAllPostsLoading: false,
   loadAllPostsDone: false,
   loadAllPostsError: null,
+
+  loadOnePostLoading: false,
+  loadOnePostDone: false,
+  loadOnePostError: null,
 
   loadMyPostsLoading: false,
   loadMyPostsDone: false,
@@ -57,9 +69,21 @@ const initialState: Post = {
 
 export const loadAllPosts = createAsyncThunk(
   'post/loadAllPosts',
-  async (token: string | undefined, thunkAPI) => {
+  async (undefined, thunkAPI) => {
     try {
-      const response = await PostAPI.loadAllPosts(token);
+      const response = await PostAPI.loadAllPosts();
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
+export const loadOnePost = createAsyncThunk(
+  'post/loadOnePost',
+  async (id: string, thunkAPI) => {
+    try {
+      const response = await PostAPI.loadOnePost(id);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
@@ -133,6 +157,21 @@ export const postSlice = createSlice({
     [loadAllPosts.rejected.type]: (state, action: PayloadAction<string|null>) => {
       state.loadAllPostsLoading = false;
       state.loadAllPostsError = action.payload;
+    },
+    // loadOnePost
+    [loadOnePost.pending.type]: (state) => {
+      state.loadOnePostLoading = true;
+      state.loadOnePostDone = false;
+      state.loadOnePostError = null;
+    },
+    [loadOnePost.fulfilled.type]: (state, action: PayloadAction<Snippet>) => {
+      state.post = action.payload;
+      state.loadOnePostLoading = false;
+      state.loadOnePostDone = true;
+    },
+    [loadOnePost.rejected.type]: (state, action: PayloadAction<string|null>) => {
+      state.loadOnePostLoading = false;
+      state.loadOnePostError = action.payload;
     },
      // loadMyPosts
      [loadMyPosts.pending.type]: (state) => {

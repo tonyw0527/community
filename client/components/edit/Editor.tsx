@@ -1,12 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { prism, okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const CodeWithCodemirror = dynamic(() => import('./CodeMirror'), { ssr: false });
+import ReactMarkdown from './ReactMarkdown';
 
 export interface EditorProps {
   markdown: string;
@@ -14,8 +12,6 @@ export interface EditorProps {
 }
 
 function Editor({ markdown, onSetMarkdown }: EditorProps) {
-  const theme: Theme = useTheme();
-
   const handleOnSetMarkdown = (markdown: string) => {
     onSetMarkdown(markdown);
   };
@@ -24,19 +20,7 @@ function Editor({ markdown, onSetMarkdown }: EditorProps) {
     <>
       <div css={container}>
         <CodeWithCodemirror css={input} markdown={markdown} onSetMarkdown={handleOnSetMarkdown} />
-        <ReactMarkdown
-          css={output}
-          renderers={{
-            code: ({ language, value }: any) => {
-              if (!value) {
-                return <pre className={language}>{value || ''}</pre>;
-              }
-
-              return <SyntaxHighlighter style={theme.mode === 'light' ? prism : okaidia} language={language} children={value} />;
-            },
-          }}
-          children={markdown}
-        />
+        <ReactMarkdown css={output} markdown={markdown} />
       </div>
     </>
   );
@@ -48,11 +32,12 @@ const container = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30rem;
+  width: 100%;
+  height: 70%;
 `;
 
 const input = css`
-  width: 20rem;
+  width: 40%;
   height: 100%;
   font-size: 1.3rem;
   border: 1px solid black;
@@ -63,7 +48,7 @@ const input = css`
 `;
 
 const output = css`
-  width: 20rem;
+  width: 40%;
   height: 100%;
   padding: 0 1rem;
   border: 1px solid black;

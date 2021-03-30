@@ -38,6 +38,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     defaultClient.defaults.headers.Cookie = cookie;
   }
+
   await context.store.dispatch(AuthActions.loadMyInfo());
 
   return {

@@ -6,11 +6,11 @@ export interface Post {
   writer: string,
 }
 
-export const loadAllPosts = (token: string | undefined): Promise<any> => axios.get('/post', token ? {
-  headers: {"Authorization": `Bearer ${token}`}
-} : {});
+export const loadAllPosts = (): Promise<any> => axios.get('/post');
 
-export const loadMyPosts = (token: string): Promise<any> => axios.get('/post/my', token ? {
+export const loadOnePost = (id: string): Promise<any> => axios.get(`/post/${id}`);
+
+export const loadMyPosts = (token: string): Promise<any> => axios.get('/post/manage/my', token ? {
   headers: {"Authorization": `Bearer ${token}`}
 }: {});
 
@@ -22,6 +22,6 @@ export const requestNewPost = (token: string, { title, markdown, writer }: Post)
 //   headers: {"Authorization": `Bearer ${token}`}
 // } : {});
 
-export const requestDeletePost = (token: string, id: string ): Promise<any> => axios.delete(`/post/delete/${id}`, token ? {
+export const requestDeletePost = (token: string, id: string ): Promise<any> => axios.delete(`/post/${id}`, token ? {
   headers: {"Authorization": `Bearer ${token}`}
 } : {});

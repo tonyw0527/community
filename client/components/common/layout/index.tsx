@@ -3,6 +3,7 @@
 import React, { ReactNode } from 'react';
 import { jsx, css } from '@emotion/react';
 import Header from './Header';
+import { Copyright } from '../index';
 
 interface LayoutProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ function Layout({ children, onToggleTheme }: LayoutProps) {
     <div css={$container}>
       <Header onToggleTheme={onToggleTheme} />
       <div css={$children}>{children}</div>
+      <Copyright />
     </div>
   );
 }

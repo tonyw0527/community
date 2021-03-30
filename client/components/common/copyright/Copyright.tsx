@@ -18,6 +18,8 @@ function Copyright() {
 export default Copyright;
 
 const Div = (theme: Theme) => css`
+  margin: 1rem 0;
+  text-align: center;
   font-size: 0.9rem;
   background: none;
   color: ${theme.color.onBackgroundLow};

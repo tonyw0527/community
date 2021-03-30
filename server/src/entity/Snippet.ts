@@ -15,13 +15,13 @@ export default class Snippet {
     @Column()
     title!: string;
 
-    @Column()
+    @Column({ type: "longtext" })
     markdown!: string;
 
     @Column()
     writer!: string;
 
-    @Column()
+    @Column({ type: "longtext" })
     sanitizedHtml!: string;
 
     @Column('timestampz')

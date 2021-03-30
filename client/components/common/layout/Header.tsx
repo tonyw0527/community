@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css, Theme } from '@emotion/react';
+import Link from 'next/link';
 import Dropdown from '../dropdown/Dropdown';
 import Sidebar from '../sidebar/Sidebar';
 
@@ -8,7 +9,11 @@ function Header({ onToggleTheme }: any) {
   return (
     <header css={$header}>
       <Sidebar />
-      <span css={$title}>{'$nippet Library'}</span>
+      <Link href="/main">
+        <a css={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <span css={$title}>{'$nippet Library'}</span>
+        </a>
+      </Link>
       <div css={RightSideBox}>
         <Dropdown onToggleTheme={onToggleTheme} />
       </div>
