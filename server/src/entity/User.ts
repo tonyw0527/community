@@ -29,5 +29,4 @@ export default class User {
 
     @OneToMany(type => Snippet, snippet => snippet.user)
     snippets!: Snippet[];
-
 }
