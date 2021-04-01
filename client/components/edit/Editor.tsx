@@ -18,9 +18,10 @@ function Editor({ markdown, onSetMarkdown }: EditorProps) {
 
   return (
     <>
-      <div css={container}>
-        <CodeWithCodemirror css={input} markdown={markdown} onSetMarkdown={handleOnSetMarkdown} />
-        <ReactMarkdown css={output} markdown={markdown} />
+      <div css={$container}>
+        <CodeWithCodemirror css={$input} markdown={markdown} onSetMarkdown={handleOnSetMarkdown} />
+        <div css={$cutline} />
+        <ReactMarkdown css={$output} markdown={markdown} />
       </div>
     </>
   );
@@ -28,29 +29,34 @@ function Editor({ markdown, onSetMarkdown }: EditorProps) {
 
 export default Editor;
 
-const container = css`
+const $container = css`
   display: flex;
   justify-content: center;
-  align-items: center;
+
   width: 100%;
-  height: 70%;
+  height: 100%;
+  min-height: 100vh;
 `;
 
-const input = css`
-  width: 40%;
+const $input = css`
+  flex: 1;
   height: 100%;
   font-size: 1.3rem;
-  border: 1px solid black;
 
   .CodeMirror {
     height: 100%;
   }
 `;
 
-const output = css`
-  width: 40%;
+const $cutline = css`
+  background: gray;
+  width: 0.2rem;
+  margin: 0 1rem;
   height: 100%;
-  padding: 0 1rem;
-  border: 1px solid black;
+`;
+
+const $output = css`
+  flex: 1;
+  height: 100%;
   overflow: auto;
 `;

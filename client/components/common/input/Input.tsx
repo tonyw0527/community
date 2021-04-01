@@ -1,12 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import React from 'react';
 import { jsx, css, Theme } from '@emotion/react';
 
-export interface InputProps {}
-
-function Input(props: InputProps) {
-  return <input css={style} {...props} />;
-}
+const Input = React.forwardRef((props: React.InputHTMLAttributes<HTMLInputElement>, ref: React.ForwardedRef<HTMLInputElement>) => (
+  <input ref={ref} css={style} {...props} />
+));
 
 export default Input;
 

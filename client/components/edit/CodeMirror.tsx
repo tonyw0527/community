@@ -1,4 +1,5 @@
 import React from 'react';
+import { Theme, useTheme } from '@emotion/react';
 import { Controlled as CodeMirrorDefault } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/display/autorefresh';
@@ -129,14 +130,18 @@ interface CodeMirrorProps {
 }
 
 function CodeMirror(props: CodeMirrorProps) {
+  const theme: Theme = useTheme();
+
   return (
     <CodeMirrorDefault
       value={props.markdown}
       options={{
         mode: 'markdown',
-        theme: 'yonce',
+        theme: theme.mode === 'light' ? 'default' : 'yonce',
         lineNumbers: true,
         readOnly: false,
+        tabSize: 2,
+        lineWrapping: true,
       }}
       onBeforeChange={(editor, data, value) => {
         props.onSetMarkdown(value);
