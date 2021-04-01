@@ -14,13 +14,8 @@ function Post({ markdown }: PostProps) {
   return <ReactMarkdown css={$viewer} markdown={markdown} />;
 }
 
-export default function connect({ postid }: any) {
+export default function connect() {
   const { post } = useRootState((state) => state.post);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(PostActions.loadOnePost(postid));
-  }, []);
 
   return <Post markdown={post ? post.markdown : ''} />;
 }
