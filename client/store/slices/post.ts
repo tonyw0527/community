@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as PostAPI from '../../lib/api/post';
 
-interface Snippet {
+export interface Snippet {
   id: number;
   title: string;
   markdown: string;

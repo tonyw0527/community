@@ -16,10 +16,10 @@ function PostList({ data }: PostListProps) {
         {data.map((item, index) => (
           <Snippet
             key={'snp' + index}
+            id={item.id}
             title={item.title}
             markdown={item.markdown}
             writer={item.writer}
-            slug={item.slug}
             createdAt={item.createdAt}
           />
         ))}

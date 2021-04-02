@@ -1,19 +1,20 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { prism, okaidia } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 
 export interface SnippetProps {
+  id: number;
   title: string;
   markdown: string;
   writer: string;
-  slug: string;
   createdAt: string;
 }
 
-function Snippet({ title, markdown, writer, slug, createdAt }: SnippetProps) {
+function Snippet({ id, title, markdown, writer, createdAt }: SnippetProps) {
   const theme: Theme = useTheme();
 
   const copyCodeToClipboard = () => {
@@ -38,7 +39,11 @@ function Snippet({ title, markdown, writer, slug, createdAt }: SnippetProps) {
 
   return (
     <div css={container}>
-      <h3 css={h3}>{title}</h3>
+      <Link href={`/post/[post]`} as={`/post/${id}`}>
+        <a css={css``}>
+          <h3 css={h3}>{title}</h3>
+        </a>
+      </Link>
       <div css={main}>
         <span css={$lang}>{renderLang()}</span>
         <button css={clipBtn} onClick={() => copyCodeToClipboard()}>
@@ -84,6 +89,7 @@ const h3 = (theme: Theme) => css`
   background: ${theme.color.primary};
   text-align: center;
   color: #ffffffde;
+  cursor: pointer;
 `;
 
 const main = css`
