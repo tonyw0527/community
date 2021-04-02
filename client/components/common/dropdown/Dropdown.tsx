@@ -52,13 +52,9 @@ export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onTog
             </UserBox>
           </Li>
           <Li>
-            <A
-              onClick={() => {
-                Router.push('/new');
-              }}
-            >
-              Post
-            </A>
+            <Link href="/new">
+              <A>Post</A>
+            </Link>
           </Li>
           <Li>
             <Link href="/manage">

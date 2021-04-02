@@ -28,6 +28,13 @@ function New({ authResult, title, markdown, onSetTitle, onSetMarkdown, onRequest
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    window.onbeforeunload = (e: any) => '';
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
+
+  useEffect(() => {
     if (requestNewPostDone) {
       Popup.success('작성 완료');
       Router.push('/main');
