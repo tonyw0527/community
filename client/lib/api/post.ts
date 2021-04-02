@@ -1,6 +1,7 @@
 import axios from '../defaultClient';
 
 export interface Post {
+  id?: number,
   title: string,
   markdown: string,
   writer: string,
@@ -18,9 +19,9 @@ export const requestNewPost = (token: string, { title, markdown, writer }: Post)
   headers: {"Authorization": `Bearer ${token}`}
 } : {});
 
-// export const requestUpdatePost = (token: string | undefined, { title, markdown, writer }: Post): Promise<any> => axios.put('/post/new', { title, markdown, writer }, token ? {
-//   headers: {"Authorization": `Bearer ${token}`}
-// } : {});
+export const requestUpdatePost = (token: string, { id, title, markdown, writer }: Post): Promise<any> => axios.put('/post/new', { id, title, markdown, writer }, token ? {
+  headers: {"Authorization": `Bearer ${token}`}
+} : {});
 
 export const requestDeletePost = (token: string, id: string ): Promise<any> => axios.delete(`/post/${id}`, token ? {
   headers: {"Authorization": `Bearer ${token}`}

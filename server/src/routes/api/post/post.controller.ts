@@ -36,6 +36,22 @@ export const newPost = async (req: any, res: Response) => {
   }
 }
 
+export const updatePost = async (req: any, res: Response) => {
+  const { id, title, markdown, writer } = req.body;
+  const snippet = await getRepository(Snippet).findOne(id);
+  
+  if(snippet){
+    snippet.title = title;
+    snippet.markdown = markdown;
+    snippet.writer = writer;
+    
+    await getRepository(Snippet).save(snippet);
+    res.status(200).send('done');
+  } else {
+    res.status(400).send(`can't find a user`);
+  }
+}
+
 export const deletePost = async (req: Request, res: Response) => {
   const snippet = await getRepository(Snippet).findOne(req.params.id);
   try{

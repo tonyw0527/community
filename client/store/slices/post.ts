@@ -33,6 +33,10 @@ interface Post {
   requestNewPostDone: boolean;
   requestNewPostError: string | null;
 
+  requestUpdatePostLoading: boolean;
+  requestUpdatePostDone: boolean;
+  requestUpdatePostError: string | null;
+
   requestDeletePostLoading: boolean;
   requestDeletePostDone: boolean;
   requestDeletePostError: string | null;
@@ -61,6 +65,10 @@ const initialState: Post = {
   requestNewPostLoading: false,
   requestNewPostDone: false,
   requestNewPostError: null,
+
+  requestUpdatePostLoading: false,
+  requestUpdatePostDone: false,
+  requestUpdatePostError: null,
 
   requestDeletePostLoading: false,
   requestDeletePostDone: false,
@@ -119,6 +127,18 @@ export const requestNewPost = createAsyncThunk(
   }
 )
 
+export const requestUpdatePost = createAsyncThunk(
+  'post/requestUpdatePost',
+  async ({ token, id, title, markdown, writer }: PostWithToken, thunkAPI) => {
+    try {
+      const response = await PostAPI.requestUpdatePost(token, { id, title, markdown, writer });
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+)
+
 export const requestDeletePost = createAsyncThunk(
   'post/requestDeletePost',
   async ({ token, id }: any, thunkAPI) => {
@@ -166,6 +186,8 @@ export const postSlice = createSlice({
     },
     [loadOnePost.fulfilled.type]: (state, action: PayloadAction<Snippet>) => {
       state.post = action.payload;
+      state.title = action.payload.title;
+      state.markdown = action.payload.markdown;
       state.loadOnePostLoading = false;
       state.loadOnePostDone = true;
     },
@@ -201,6 +223,20 @@ export const postSlice = createSlice({
     [requestNewPost.rejected.type]: (state, action: PayloadAction<string|null>) => {
       state.requestNewPostLoading = false;
       state.requestNewPostError = action.payload;
+    },
+    // requestNewPost
+    [requestUpdatePost.pending.type]: (state) => {
+      state.requestUpdatePostLoading = true;
+      state.requestUpdatePostDone = false;
+      state.requestUpdatePostError = null;
+    },
+    [requestUpdatePost.fulfilled.type]: (state) => {
+      state.requestUpdatePostLoading = false;
+      state.requestUpdatePostDone = true;
+    },
+    [requestUpdatePost.rejected.type]: (state, action: PayloadAction<string|null>) => {
+      state.requestUpdatePostLoading = false;
+      state.requestUpdatePostError = action.payload;
     },
     // requesDeletePost
     [requestDeletePost.pending.type]: (state) => {
