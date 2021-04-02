@@ -29,10 +29,8 @@ function Snippet({ id, title, markdown, writer, createdAt }: SnippetProps) {
 
   const renderLang = () => {
     const part = markdown.match(/~~~[a-zA-Z]*\n/);
-    console.log(part);
     if (part) {
       const lang = part[0].match(/[a-zA-Z]*\n/);
-      console.log(lang);
       if (lang) return lang[0];
     }
   };

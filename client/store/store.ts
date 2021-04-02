@@ -7,7 +7,7 @@ import logger from 'redux-logger';
 const initStore = (context: any) => configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
+  middleware: process.env.NODE_ENV !== 'production' ? getDefaultMiddleware => getDefaultMiddleware().concat(logger) : getDefaultMiddleware => getDefaultMiddleware(),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
