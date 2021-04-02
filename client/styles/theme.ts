@@ -17,7 +17,7 @@ const lightTheme: Theme = {
 
       onPrimary: '#FFFFFF',
       onSecondary: '#FFFFFF',
-      onBackground: '#000000DE',
+      onBackground: '#000000CC',
       onBackgroundLow: '#0000008A',
       onSurface: '#000000',
       onError: '#FFFFFF',
