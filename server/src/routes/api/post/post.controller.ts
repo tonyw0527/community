@@ -4,7 +4,9 @@ import User from '../../../entity/User';
 import Snippet from '../../../entity/Snippet';
 
 export const loadAllposts = async (req: Request, res: Response) => {
-  const allPosts = await getRepository(Snippet).find();
+  const allPosts = await getRepository(Snippet).find({ order: {
+    createdAt: "DESC"
+  } });
   res.status(200).json(allPosts);
 }
 
@@ -15,7 +17,7 @@ export const loadOnePost = async (req: any, res: Response) => {
 
 export const loadMyPosts = async (req: any, res: Response) => {
   const userPosts = await getRepository(User).findOne({ email: req.user.me.email }, { relations: ['snippets'] });
-  res.status(200).json(userPosts?.snippets);
+  res.status(200).json(userPosts?.snippets.sort((a,b)=>a.createdAt>b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0));
 }
 
 export const newPost = async (req: any, res: Response) => {
