@@ -11,7 +11,6 @@ export interface PostListProps {
 function PostList({ data }: PostListProps) {
   return (
     <>
-      <h1>{'The latest snippets'}</h1>
       <div css={$snippets}>
         {data.map((item, index) => (
           <Snippet

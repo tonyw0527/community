@@ -11,7 +11,7 @@ function Header({ onToggleTheme }: any) {
       <Sidebar />
       <Link href="/main">
         <a css={{ textDecoration: 'none', cursor: 'pointer' }}>
-          <span css={$title}>{'$nippet Library'}</span>
+          <span css={$title}>{'Snippet Bank'}</span>
         </a>
       </Link>
       <div css={RightSideBox}>
