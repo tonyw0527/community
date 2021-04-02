@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import EditForm from './EditForm';
+import EditForm, { EditFormProps } from './EditForm';
 import { Provider } from 'react-redux';
 import { action } from '@storybook/addon-actions';
 
@@ -23,7 +23,7 @@ export default {
   decorators: [(story) => <Provider store={store}>{story()}</Provider>],
 } as Meta;
 
-const Template: Story = (args) => <EditForm {...args} />;
+const Template: Story<EditFormProps> = (args) => <EditForm {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};

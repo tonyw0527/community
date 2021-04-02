@@ -12,7 +12,7 @@ interface PostWithToken extends Post {
   token: string;
 }
 
-interface EditFormProps {
+export interface EditFormProps {
   authResult: AuthResult;
   postId?: number;
   title: string;
@@ -25,6 +25,15 @@ interface EditFormProps {
 
 function EditForm({ authResult, postId, title, markdown, onSetTitle, onSetMarkdown, onRequestComplete, requestDone }: EditFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    window.onbeforeunload = (e: any) => {
+      return false;
+    };
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (requestDone) {

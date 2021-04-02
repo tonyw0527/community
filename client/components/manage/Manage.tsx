@@ -94,10 +94,11 @@ const $info = css`
 
 const $right = css``;
 
-const $button = css`
+const $button = (theme: Theme) => css`
   margin: 0.2rem;
   padding: 0.3rem;
   background: none;
   border: 0;
+  color: ${theme.color.onBackground};
   cursor: pointer;
 `;
