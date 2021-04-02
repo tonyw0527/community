@@ -2,11 +2,9 @@
 /** @jsx jsx */
 import React, { useRef, useEffect } from 'react';
 import Router from 'next/router';
-import { jsx, css, useTheme, Theme } from '@emotion/react';
+import { jsx, css, Theme } from '@emotion/react';
 import Editor from './Editor';
 import { Button, Popup, Input } from '../common';
-import { useRootState, useAppDispatch } from '../../store/store';
-import { setTitle, setMarkdown, requestNewPost } from '../../store/slices/post';
 import { AuthResult } from '../../store/slices/auth';
 import { Post } from '../../lib/api/post';
 
@@ -14,32 +12,26 @@ interface PostWithToken extends Post {
   token: string;
 }
 
-interface NewProps {
+interface EditFormProps {
   authResult: AuthResult;
+  postId?: number;
   title: string;
   markdown: string;
   onSetTitle: (title: string) => void;
   onSetMarkdown: (markdown: string) => void;
-  onRequestNewPost: ({ token, title, markdown, writer }: PostWithToken) => void;
-  requestNewPostDone: boolean;
+  onRequestComplete: ({ token, title, markdown, writer }: PostWithToken) => void;
+  requestDone: boolean;
 }
 
-function New({ authResult, title, markdown, onSetTitle, onSetMarkdown, onRequestNewPost, requestNewPostDone }: NewProps) {
+function EditForm({ authResult, postId, title, markdown, onSetTitle, onSetMarkdown, onRequestComplete, requestDone }: EditFormProps) {
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    window.onbeforeunload = (e: any) => '';
-    return () => {
-      window.onbeforeunload = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (requestNewPostDone) {
+    if (requestDone) {
       Popup.success('작성 완료');
       Router.push('/main');
     }
-  }, [requestNewPostDone]);
+  }, [requestDone]);
 
   return (
     <div css={$container}>
@@ -68,50 +60,23 @@ function New({ authResult, title, markdown, onSetTitle, onSetMarkdown, onRequest
               return;
             }
 
-            onRequestNewPost({
+            onRequestComplete({
               token: authResult.token,
+              id: postId,
               title,
               markdown,
               writer: authResult.me.nickname,
             });
           }}
         >
-          Post
+          완료
         </Button>
       </div>
     </div>
   );
 }
 
-export default function connect() {
-  const { authResult } = useRootState((state) => state.auth);
-  const { title, markdown, requestNewPostDone } = useRootState((state) => state.post);
-  const dispatch = useAppDispatch();
-
-  const onSetTitle = (title: string) => {
-    dispatch(setTitle(title));
-  };
-
-  const onSetMarkdown = (markdown: string) => {
-    dispatch(setMarkdown(markdown));
-  };
-
-  const onRequestNewPost = ({ token, title, markdown, writer }: PostWithToken) => {
-    dispatch(requestNewPost({ token, title, markdown, writer }));
-  };
-
-  return (
-    <New
-      title={title}
-      markdown={markdown}
-      authResult={authResult}
-      onSetMarkdown={onSetMarkdown}
-      onSetTitle={onSetTitle}
-      onRequestNewPost={onRequestNewPost}
-      requestNewPostDone={requestNewPostDone}
-    />
-  );
-}
+export default EditForm;
 
 const $container = css`
   display: flex;

@@ -20,15 +20,10 @@ function Manage({ data, authResult, requestDeletePostDone, onRequestDeletePost }
       <li key={'mypost' + index}>
         <Link href={`/post/[post]`} as={`/post/${item.id}`}>
           <a>{item.title}</a>
+        </Link>{' '}
+        <Link href={`/edit/[edit]`} as={`/edit/${item.id}`}>
+          <a>편집</a>
         </Link>
-        <button
-          id={item.id}
-          onClick={(e) => {
-            alert(e.currentTarget.id);
-          }}
-        >
-          편집
-        </button>
         <button
           id={item.id}
           onClick={(e) => {
