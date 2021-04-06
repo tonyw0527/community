@@ -7,7 +7,14 @@ import Link from 'next/link';
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as PostActions from '../../store/slices/post';
 
-function Manage({ data, authResult, requestDeletePostDone, onRequestDeletePost }: any) {
+export interface ManageProps {
+  data: any;
+  authResult: any;
+  requestDeletePostDone: boolean;
+  onRequestDeletePost: any;
+}
+
+export function Manage({ data, authResult, requestDeletePostDone, onRequestDeletePost }: ManageProps) {
   useEffect(() => {
     if (requestDeletePostDone) {
       Router.reload();

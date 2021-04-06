@@ -6,8 +6,8 @@ export interface Snippet {
   title: string;
   markdown: string;
   writer: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Post {

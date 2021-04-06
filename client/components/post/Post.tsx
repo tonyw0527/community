@@ -6,11 +6,11 @@ import ReactMarkdown from '../edit/ReactMarkdown';
 import { useRootState, useAppDispatch } from '../../store/store';
 import * as PostActions from '../../store/slices/post';
 
-interface PostProps {
+export interface PostProps {
   post: PostActions.Snippet;
 }
 
-function Post({ post }: PostProps) {
+export function Post({ post }: PostProps) {
   const { title, writer, markdown, createdAt } = post;
 
   return (

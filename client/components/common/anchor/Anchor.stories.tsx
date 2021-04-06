@@ -11,5 +11,5 @@ const Template: Story<AnchorProps> = (args) => <Anchor {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  children: 'www.storybook.com',
+  children: 'www.snippetbank.com',
 };

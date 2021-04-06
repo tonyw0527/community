@@ -31,7 +31,7 @@ function Snippet({ id, title, markdown, writer, createdAt }: SnippetProps) {
     const part = markdown.match(/~~~[a-zA-Z]*\n/);
     if (part) {
       const lang = part[0].match(/[a-zA-Z]*\n/);
-      if (lang) return lang[0];
+      if (lang) return lang[0].toLocaleUpperCase();
     }
   };
 
@@ -42,7 +42,7 @@ function Snippet({ id, title, markdown, writer, createdAt }: SnippetProps) {
           <h3 css={h3}>{title}</h3>
         </a>
       </Link>
-      <div css={main}>
+      <div css={$main}>
         <span css={$lang}>{renderLang()}</span>
         <button css={clipBtn} onClick={() => copyCodeToClipboard()}>
           copy
@@ -90,7 +90,7 @@ const h3 = (theme: Theme) => css`
   cursor: pointer;
 `;
 
-const main = css`
+const $main = css`
   position: relative;
   flex: 1 1 auto;
   width: 100%;
@@ -100,11 +100,12 @@ const main = css`
 
 const $lang = (theme: Theme) => css`
   position: absolute;
-  top: 0.2rem;
+  top: 0.3rem;
   left: 0.5rem;
   border: none;
   background: none;
   color: ${theme.color.secondaryVariant};
+  font-weight: 700;
 `;
 
 const clipBtn = css`

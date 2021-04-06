@@ -5,7 +5,7 @@ import PostList, { PostListProps } from './PostList';
 export default {
   component: PostList,
   title: 'Page/Main/PostList',
-  decorators: [(story) => <div style={{ width: '100vw' }}>{story()}</div>],
+  decorators: [(story) => <div style={{ margin: '1rem', width: '90vw' }}>{story()}</div>],
   parameters: {
     layout: 'fullscreen',
   },

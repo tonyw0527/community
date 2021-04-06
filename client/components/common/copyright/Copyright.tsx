@@ -7,7 +7,7 @@ function Copyright() {
     <div css={Div}>
       {'Copyright © '}
       <a css={A} href="https://tonyw.tistory.com/">
-        Community.com
+        Snippet Bank
       </a>{' '}
       {new Date().getFullYear()}
       {'.'}

@@ -11,8 +11,8 @@ function Landing() {
     <Container>
       <div css={ImageBox}></div>
       <SideBox>
-        <Title>Community</Title>
-        <P>자유로운 커뮤니티에 참여하세요.</P>
+        <Title>Snippet Bank</Title>
+        <P>자유로운 개발 커뮤니티에 참여하세요.</P>
         <LinkBox>
           <Link href="/login">
             <a>

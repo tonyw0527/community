@@ -53,34 +53,16 @@ export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onTog
           </Li>
           <Li>
             <Link href="/new">
-              <A>Post</A>
+              <A>글쓰기</A>
             </Link>
           </Li>
           <Li>
             <Link href="/manage">
-              <A>Manage</A>
+              <A>글관리</A>
             </Link>
           </Li>
           <Li>
             <A onClick={onClickLogout}>로그아웃</A>
-          </Li>
-          <Li>
-            <A
-              onClick={() => {
-                onLoadMyInfo(authResult.token);
-              }}
-            >
-              토큰 체크
-            </A>
-          </Li>
-          <Li>
-            <A
-              onClick={() => {
-                Popup.error('테스트 화면 입니다.');
-              }}
-            >
-              다이나믹 메세지 체크
-            </A>
           </Li>
           <Li>
             <DarkModeToggleButton onToggleTheme={onToggleTheme} />
