@@ -1,9 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useEffect } from 'react';
-import { jsx, css, useTheme, Theme } from '@emotion/react';
+import React from 'react';
+import { jsx, css, Theme } from '@emotion/react';
 import ReactMarkdown from '../edit/ReactMarkdown';
-import { useRootState, useAppDispatch } from '../../store/store';
+import { useRootState } from '../../store/store';
 import * as PostActions from '../../store/slices/post';
 
 export interface PostProps {

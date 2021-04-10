@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useEffect } from 'react';
-import { jsx, css, useTheme, Theme } from '@emotion/react';
+import { jsx, css, Theme } from '@emotion/react';
 import Router from 'next/router';
 import Link from 'next/link';
 import { useRootState, useAppDispatch } from '../../store/store';

@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from 'react';
-import { jsx, css, useTheme, Theme } from '@emotion/react';
+import { jsx, css } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const CodeWithCodemirror = dynamic(() => import('./CodeMirror'), { ssr: false });
 import ReactMarkdown from './ReactMarkdown';

@@ -3,7 +3,6 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 // slices
 import { authSlice } from './auth';
-import { userSlice } from './user';
 import { postSlice } from './post';
 
 // root reducer
@@ -17,7 +16,6 @@ export const rootReducer = (state: any = {}, action: any) => {
     }
     return combineReducers({
         [authSlice.name]: authSlice.reducer,
-        [userSlice.name]: userSlice.reducer,
         [postSlice.name]: postSlice.reducer,
     })(state, action);
 }
