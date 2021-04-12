@@ -104,7 +104,7 @@ const Container = styled.div`
   align-items: center;
 
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
 `;
 
 const H1 = styled.h1``;

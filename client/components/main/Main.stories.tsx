@@ -30,7 +30,13 @@ const store: any = {
 export default {
   component: Main,
   title: 'Page/Main/index',
-  decorators: [(story) => <Provider store={store}>{story()}</Provider>],
+  decorators: [
+    (story) => (
+      <Provider store={store}>
+        <div style={{ margin: '1rem' }}>{story()}</div>
+      </Provider>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
   },
