@@ -3,7 +3,7 @@
 - 간편하게 코드 조각을 저장하고 공유할 수 있는 블로그 형태의 웹 사이트입니다.
 - 다크모드를 지원합니다.
 
-Look stories [here](https://604fd3dc2409ed002109132e-iekvthwaui.chromatic.com/?path=/story/common-anchor--default)
+Look Storybook [here](https://604fd3dc2409ed002109132e-iekvthwaui.chromatic.com/?path=/story/common-anchor--default)
 
 ## Tech Stack
 
