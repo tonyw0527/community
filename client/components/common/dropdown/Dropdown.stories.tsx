@@ -12,17 +12,8 @@ const Template: Story<DropdownProps> = (args) => <Dropdown {...args} />;
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
-  authResult: {
-    me: {
-      id: '2109d210-8184-11eb-ba51-a75dd73260fc',
-      email: '1@2.com',
-      nickname: 'tony',
-      createdAt: '2021-03-10T09:36:45.000Z',
-    },
-    token: 'test',
-  },
-  logoutDone: false,
+  nickname: 'tony',
+  email: 'a@b.com',
   onLogout: () => console.log('logout'),
-  onLoadMyInfo: (token: string) => console.log('load my info'),
   onToggleTheme: () => console.log('toggle theme'),
 };

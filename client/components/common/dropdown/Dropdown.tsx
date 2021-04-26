@@ -1,25 +1,22 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { useEffect, useRef, forwardRef } from 'react';
+import { useRef, forwardRef } from 'react';
 import Link from 'next/link';
-import Router from 'next/router';
 import { useDetectOutsideClick } from '../../../lib/useDetectOutsideClick';
 import DarkModeToggleButton from '../darkmode-toggle-button/DarkModeToggleButton';
 import styled from '@emotion/styled';
 import { jsx, css, useTheme, Theme } from '@emotion/react';
 import { useRootState, useAppDispatch } from '../../../store/store';
 import * as AuthActions from '../../../store/slices/auth';
-import { Popup } from '..';
 
 export interface DropdownProps {
-  authResult: any;
-  logoutDone: boolean;
+  nickname: string;
+  email: string;
   onLogout: () => void;
-  onLoadMyInfo: (token: string) => void;
   onToggleTheme: () => void;
 }
 
-export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onToggleTheme }: DropdownProps) {
+export function Dropdown({ nickname, email, onLogout, onToggleTheme }: DropdownProps) {
   const dropdownRef = useRef<HTMLElement>(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const theme = useTheme();
@@ -30,25 +27,18 @@ export function Dropdown({ authResult, logoutDone, onLogout, onLoadMyInfo, onTog
     onLogout();
   };
 
-  useEffect(() => {
-    if (logoutDone) {
-      Popup.success('로그아웃 되었습니다.');
-      Router.push('/');
-    }
-  }, [logoutDone]);
-
   return (
     <MenuContainer>
-      <MenuTriggerBtn theme={theme} type="button" onClick={onClick}>
+      <MenuTriggerBtn role="button" theme={theme} type="button" onClick={onClick}>
         <Span>User</Span>
         {/* <Img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/df/df7789f313571604c0e4fb82154f7ee93d9989c6.jpg" alt="User avatar" /> */}
       </MenuTriggerBtn>
-      <Nav theme={theme} ref={dropdownRef} isActive={isActive ? true : false}>
+      <Nav data-testid="dropdown-nav" theme={theme} ref={dropdownRef} isActive={isActive ? true : false}>
         <Ul>
           <Li>
             <UserBox>
-              <NickBox>{authResult ? authResult.me.nickname : null}</NickBox>
-              <EmailBox>{authResult ? authResult.me.email : null}</EmailBox>
+              <NickBox>{nickname ? nickname : null}</NickBox>
+              <EmailBox>{email ? email : null}</EmailBox>
             </UserBox>
           </Li>
           <Li>
@@ -81,19 +71,7 @@ export default function connect({ onToggleTheme }: any) {
     dispatch(AuthActions.logout());
   };
 
-  const onLoadMyInfo = (token: string) => {
-    dispatch(AuthActions.loadMyInfo(token));
-  };
-
-  return (
-    <Dropdown
-      authResult={authResult}
-      logoutDone={logoutDone}
-      onLogout={onLogout}
-      onLoadMyInfo={onLoadMyInfo}
-      onToggleTheme={onToggleTheme}
-    />
-  );
+  return <Dropdown nickname={authResult.me.nickname} email={authResult.me.email} onLogout={onLogout} onToggleTheme={onToggleTheme} />;
 }
 
 const MenuContainer = styled.div`
